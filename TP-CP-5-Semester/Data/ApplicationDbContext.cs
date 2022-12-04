@@ -10,6 +10,9 @@ public class ApplicationDbContext: DbContext
     public DbSet<Tour> Tours => Set<Tour>();
     public DbSet<Booking> Bookings => Set<Booking>();
     public DbSet<BookingStatus> BookingStatuses => Set<BookingStatus>();
-    
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+    {
+        Database.EnsureCreated();
+    }
 }
