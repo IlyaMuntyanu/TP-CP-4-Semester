@@ -5,9 +5,11 @@ namespace TP_CP_5_Semester.Data;
 
 public class ApplicationDbContext: DbContext
 {
-    public DbSet<User> Users;
-    public DbSet<Role> Roles;
-    public DbSet<Tour> Tours;
-    public DbSet<Booking> Bookings;
-    public DbSet<BookingStatus> BookingStatuses;
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Role> Roles => Set<Role>();
+    public DbSet<Tour> Tours => Set<Tour>();
+    public DbSet<Booking> Bookings => Set<Booking>();
+    public DbSet<BookingStatus> BookingStatuses => Set<BookingStatus>();
+    
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 }
