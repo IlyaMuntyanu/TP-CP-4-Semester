@@ -18,7 +18,7 @@
         </thead>
         @foreach (Tour tour in ViewBag.ToursList)
         {
-            <tr>
+            <tr class="p-3">
                 <td>@tour.Name</td>
                 <td>@tour.StartDate</td>
                 <td>@tour.EndDate</td>
@@ -27,7 +27,10 @@
                 {
                     if (User.IsInRole("Manager"))
                     {
-                        <td>Manager here!</td>
+                        <td>
+                            <a class="btn btn-primary" href="#" role="button"><i class="fa-solid fa-pencil"></i></a>
+                            <a class="btn btn-danger" href="#" role="button"><i class="fa-solid fa-trash"></i></a>
+                        </td>
                     }
                     else
                     {
