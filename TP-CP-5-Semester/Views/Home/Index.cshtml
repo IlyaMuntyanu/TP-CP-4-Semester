@@ -5,28 +5,38 @@
 }
 
 <div class="text-center">
-    @if (SignInManager.IsSignedIn(User) && User.IsInRole("Manager"))
-    {
-        <p>Manager here!</p>
-    }
-
     <table class="table">
         <thead>
         <td>Название</td>
         <td>Дата начала</td>
         <td>Дата конца</td>
         <td>Цена</td>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <td>Действия</td>
+        }
         </thead>
         @foreach (Tour tour in ViewBag.ToursList)
-            {
-                <tr>
-                    <td>@tour.Name</td>
-                    <td>@tour.StartDate</td>
-                    <td>@tour.EndDate</td>
-                    <td>@tour.Price &#8381;</td>
-                </tr>
-            }
+        {
+            <tr>
+                <td>@tour.Name</td>
+                <td>@tour.StartDate</td>
+                <td>@tour.EndDate</td>
+                <td>@tour.Price &#8381;</td>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                    if (User.IsInRole("Manager"))
+                    {
+                        <td>Manager here!</td>
+                    }
+                    else
+                    {
+                        <td>Not a manager!</td>
+                    }
+                }
+            </tr>
+        }
     </table>
-    
+
 
 </div>
