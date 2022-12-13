@@ -5,6 +5,24 @@
 }
 
 <div class="text-center">
+
+    <div class="modal fade" id="deleteTourModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Удалить путевку</h5>
+                    <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleDeleteModal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="toggleDeleteModal()">Закрыть</button>
+                    <button type="button" class="btn btn-primary" onclick="deleteTour()">Удалить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <table class="table">
         <thead>
         <td>Название</td>
@@ -28,8 +46,12 @@
                     if (User.IsInRole("Manager"))
                     {
                         <td>
-                            <a class="btn btn-primary" href="#" role="button"><i class="fa-solid fa-pencil"></i></a>
-                            <a class="btn btn-danger" href="#" role="button"><i class="fa-solid fa-trash"></i></a>
+                            <button class="btn btn-primary">
+                                <i class="fa-solid fa-pencil"></i>
+                            </button>
+                            <button class="btn btn-danger" onclick="toggleDeleteModal()">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
                         </td>
                     }
                     else
@@ -43,3 +65,9 @@
 
 
 </div>
+
+<script>
+    const toggleDeleteModal = () => {
+        $('#deleteTourModal').modal('toggle');
+    }
+</script>
