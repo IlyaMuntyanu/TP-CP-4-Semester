@@ -7,10 +7,10 @@
 <div class="text-center">
 
     <div class="modal fade" id="deleteTourModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Подтверждение</h5>
+                    <h5 class="modal-title">Подтверждение</h5>
                     <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleDeleteModal()">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -26,6 +26,50 @@
         </div>
     </div>
 
+    <div class="modal fade" id="createTourModal" tabindex="-1" role="dialog" aria-labelledby="createModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Создать путевку</h5>
+                    <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleCreateModal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form style="text-align: left">
+                        <div class="form-group m-2">
+                            <label for="tourName">Название путёвки</label>
+                            <input type="text" class="form-control" id="tourName" name="name" placeholder="Название путёвки">
+                        </div>
+                        <div class="form-group m-2">
+                            <label for="startDate">Дата начала</label>
+                            <input type="date" class="form-control" id="startDate" name="startDate" placeholder="Дата начала поездки">
+                        </div>
+                        <div class="form-group m-2">
+                            <label for="endDate">Дата конца</label>
+                            <input type="date" class="form-control" id="endDate" name="endDate" placeholder="Дата конца поездки">
+                        </div>
+
+                        <div class="forn-group m-2">
+                            <label for="price">Стоимость</label>
+                            <input type="number" class="form-control" id="price" name="price" placeholder="Стоимость">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary m-2">Создать</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="toggleCreateModal()">Отменить</button>
+                    <button type="button" class="btn btn-success" onclick="createTour()">Создать</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-primary m-5" onclick="toggleCreateModal()">
+        <i class="fa fa-plus"></i> Создать
+    </button>
+    
     @if (ViewBag.ToursList.Count > 0)
     {
         <table class="table">
@@ -89,5 +133,13 @@
     const deleteTour = () => {
         $('#deleteTourModal').modal('toggle');
         window.location.href = "/Home/DeleteTour/" + selectedEntry;
+    }
+    const toggleCreateModal = () => {
+        $('#createTourModal').modal('toggle');
+    }
+    
+    const createTour = () => {
+        $('#createTourModal').modal('toggle');
+        window.location.href = "/Home/CreateTour/";
     }
 </script>
