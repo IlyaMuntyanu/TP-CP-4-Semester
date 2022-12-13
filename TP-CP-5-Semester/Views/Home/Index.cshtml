@@ -26,52 +26,60 @@
         </div>
     </div>
 
-    <table class="table">
-        <thead>
-        <td>Название</td>
-        <td>Дата начала</td>
-        <td>Дата конца</td>
-        <td>Цена</td>
-        @if (SignInManager.IsSignedIn(User))
-        {
-            <td>Действия</td>
-        }
-        </thead>
-        @foreach (Tour tour in ViewBag.ToursList)
-        {
-            <tr class="p-3">
-                <td>@tour.Name</td>
-                <td>@tour.StartDate</td>
-                <td>@tour.EndDate</td>
-                <td>@tour.Price &#8381;</td>
-                @if (SignInManager.IsSignedIn(User))
-                {
-                    if (User.IsInRole("Manager"))
-                    {
-                        <td>
-                            <button class="btn btn-primary">
-                                <i class="fa-solid fa-pencil"></i>
-                            </button>
-                            <button class="btn btn-danger" onclick="toggleDeleteModal(@tour.Id)">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        </td>
-                    }
-                    else
-                    {
-                        <td>Not a manager!</td>
-                    }
-                }
-            </tr>
-        }
-    </table>
+    @if (ViewBag.ToursList.Count > 0)
+    {
+        <table class="table">
+            <thead>
+            <td>Название</td>
+            <td>Дата начала</td>
+            <td>Дата конца</td>
+            <td>Цена</td>
+            @if (SignInManager.IsSignedIn(User))
+            {
+                <td>Действия</td>
+            }
+            </thead>
 
+            @foreach (Tour tour in ViewBag.ToursList)
+            {
+                <tr class="p-3">
+                    <td>@tour.Name</td>
+                    <td>@tour.StartDate</td>
+                    <td>@tour.EndDate</td>
+                    <td>@tour.Price &#8381;</td>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        if (User.IsInRole("Manager"))
+                        {
+                            <td>
+                                <button class="btn btn-primary">
+                                    <i class="fa-solid fa-pencil"></i>
+                                </button>
+                                <button class="btn btn-danger" onclick="toggleDeleteModal(@tour.Id)">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>Not a manager!</td>
+                        }
+                    }
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        <p>Записей нет</p>
+    }
 
 </div>
 
 <script>
 
-    var selectedEntry = 0;
+    let selectedEntry = 0;
 
     const toggleDeleteModal = (id) => {
         selectedEntry = id;
