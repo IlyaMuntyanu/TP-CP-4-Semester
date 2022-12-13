@@ -29,6 +29,13 @@ public class HomeController : Controller
         return RedirectPermanent("/");
     }
 
+    public async Task<IActionResult> CreateTour(Tour tour)
+    {
+        await _db.Tours.AddAsync(tour);
+        await _db.SaveChangesAsync();
+        return RedirectPermanent("/");
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
