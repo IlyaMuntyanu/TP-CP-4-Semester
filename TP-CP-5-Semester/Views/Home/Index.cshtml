@@ -10,10 +10,13 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Удалить путевку</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Подтверждение</h5>
                     <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleDeleteModal()">
                         <span aria-hidden="true">&times;</span>
                     </button>
+                </div>
+                <div class="modal-body">
+                    <p>Удалить путевку?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="toggleDeleteModal()">Закрыть</button>
@@ -49,7 +52,7 @@
                             <button class="btn btn-primary">
                                 <i class="fa-solid fa-pencil"></i>
                             </button>
-                            <button class="btn btn-danger" onclick="toggleDeleteModal()">
+                            <button class="btn btn-danger" onclick="toggleDeleteModal(@tour.Id)">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         </td>
@@ -67,7 +70,16 @@
 </div>
 
 <script>
-    const toggleDeleteModal = () => {
+
+    var selectedEntry = 0;
+
+    const toggleDeleteModal = (id) => {
+        selectedEntry = id;
+        $('#deleteTourModal').modal('toggle');
+    }
+    
+    const deleteTour = () => {
+        console.log(selectedEntry);
         $('#deleteTourModal').modal('toggle');
     }
 </script>
