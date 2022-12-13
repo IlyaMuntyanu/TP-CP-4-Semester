@@ -79,7 +79,7 @@
     }
     
     const deleteTour = () => {
-        console.log(selectedEntry);
         $('#deleteTourModal').modal('toggle');
+        window.location.href = "/Home/DeleteTour/" + selectedEntry;
     }
 </script>

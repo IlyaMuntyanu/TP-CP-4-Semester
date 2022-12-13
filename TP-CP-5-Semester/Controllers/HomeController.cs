@@ -23,6 +23,12 @@ public class HomeController : Controller
         return View();
     }
 
+    public async Task<IActionResult> DeleteTour(long id)
+    {
+        await _db.Tours.Where(tour => tour.Id == id).ExecuteDeleteAsync();
+        return RedirectPermanent("/");
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
