@@ -102,6 +102,9 @@
                                     <button class="btn btn-danger" onclick="toggleDeleteModal(@tour.Id)" title="Удалить">
                                         <i class="fa-solid fa-trash"></i>
                                     </button>
+                                    <button class="btn btn-success" onclick="toggleOrderModal(@tour.Id)" title="Забронировать">
+                                        <i class="fa-solid fa-cash-register"></i>
+                                    </button>
                                 </div>
                             </td>
                         }
@@ -135,6 +138,12 @@
         $('#deleteTourModal').modal('toggle');
         window.location.href = "/Home/DeleteTour/" + selectedEntry;
     }
+    
+    const toggleEditModal = (id) => {
+        selectedEntry = id;
+        $('#editTourModal').modal('toggle');
+    }
+    
     const toggleCreateModal = () => {
         $('#createTourModal').modal('toggle');
     }
