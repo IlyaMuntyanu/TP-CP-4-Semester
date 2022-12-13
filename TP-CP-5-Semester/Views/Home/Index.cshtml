@@ -50,7 +50,7 @@
                             <input type="date" class="form-control" id="endDate" name="endDate" placeholder="Дата конца поездки">
                         </div>
 
-                        <div class="forn-group m-2">
+                        <div class="form-group m-2">
                             <label for="price">Стоимость</label>
                             <input type="number" class="form-control" id="price" name="price" placeholder="Стоимость">
                         </div>
@@ -60,7 +60,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="toggleCreateModal()">Отменить</button>
-                    <button type="button" class="btn btn-success" onclick="createTour()">Создать</button>
                 </div>
             </div>
         </div>
@@ -136,10 +135,5 @@
     }
     const toggleCreateModal = () => {
         $('#createTourModal').modal('toggle');
-    }
-    
-    const createTour = () => {
-        $('#createTourModal').modal('toggle');
-        window.location.href = "/Home/CreateTour/";
     }
 </script>
