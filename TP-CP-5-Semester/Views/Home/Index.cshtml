@@ -5,11 +5,28 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    
     @if (SignInManager.IsSignedIn(User) && User.IsInRole("Manager"))
     {
         <p>Manager here!</p>
     }
+
+    <table class="table">
+        <thead>
+        <td>Название</td>
+        <td>Дата начала</td>
+        <td>Дата конца</td>
+        <td>Цена</td>
+        </thead>
+        @foreach (Tour tour in ViewBag.ToursList)
+            {
+                <tr>
+                    <td>@tour.Name</td>
+                    <td>@tour.StartDate</td>
+                    <td>@tour.EndDate</td>
+                    <td>@tour.Price &#8381;</td>
+                </tr>
+            }
+    </table>
+    
+
 </div>

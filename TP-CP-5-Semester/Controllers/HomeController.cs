@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TP_CP_5_Semester.Data;
 using TP_CP_5_Semester.Models;
 
@@ -16,8 +17,9 @@ public class HomeController : Controller
         _db = db;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
+        ViewBag.ToursList = await _db.Tours.ToListAsync();
         return View();
     }
 
