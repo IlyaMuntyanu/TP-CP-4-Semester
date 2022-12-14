@@ -37,6 +37,9 @@
                 </div>
                 <div class="modal-body">
                     <form style="text-align: left" method="post" action="/Home/CreateTour" id="dataModalForm">
+                        
+                        <input type="hidden" id="tourId" name="id"/>
+                        
                         <div class="form-group m-2">
                             <label for="tourName">Название путёвки</label>
                             <input type="text" class="form-control" id="tourName" name="name" placeholder="Название путёвки">
@@ -153,6 +156,7 @@
           case "edit":
               modal.attr("data-title", "Редактировать путёвку");
               axios.get(`/Data/Tour/${id}`).then(response => {
+                modal.attr("data-tour-id", response.data.id);  
                 modal.attr("data-tour-name", response.data.name);
                 modal.attr("data-tour-startDate", response.data.startDate);
                 modal.attr("data-tour-endDate", response.data.endDate);
@@ -170,6 +174,7 @@
     $('#TourDataModal').on('shown.bs.modal', (e) => {
         const modal = $('#TourDataModal')
         $("#dataModalTitle").text(modal.attr("data-title"));
+        $("#tourId").attr("value", modal.attr("data-tour-id"));
         $("#tourName").attr("value", modal.attr("data-tour-name"));
         $("#startDate").attr("value", modal.attr("data-tour-startDate"));
         $("#endDate").attr("value", modal.attr("data-tour-endDate"));
