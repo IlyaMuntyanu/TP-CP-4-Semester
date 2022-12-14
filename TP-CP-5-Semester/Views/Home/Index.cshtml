@@ -26,12 +26,12 @@
         </div>
     </div>
 
-    <div class="modal fade" id="createTourModal" tabindex="-1" role="dialog" aria-labelledby="createModal" aria-hidden="true">
+    <div class="modal fade" id="TourDataModal" tabindex="-1" role="dialog" aria-labelledby="createModal" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Создать путевку</h5>
-                    <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleCreateModal()">
+                    <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleDataModal('create')">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -59,13 +59,13 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="toggleCreateModal()">Отменить</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="toggleDataModal()">Отменить</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <button type="button" class="btn btn-primary m-5" onclick="toggleCreateModal()">
+    <button type="button" class="btn btn-primary m-5" onclick="toggleDataModal()">
         <i class="fa fa-plus"></i> Создать
     </button>
 
@@ -139,12 +139,32 @@
         window.location.href = "/Home/DeleteTour/" + selectedEntry;
     }
     
-    const toggleEditModal = (id) => {
-        selectedEntry = id;
-        $('#editTourModal').modal('toggle');
+    const toggleDataModal = (action) => {
+        const modal = $('#TourDataModal')
+        switch (action) {
+          case "create":
+            modal.attr("data-tour-name", "");
+            modal.attr("data-tour-startDate", "");
+            modal.attr("data-tour-endDate", "");
+            modal.attr("data-tour-price", "");
+            break;
+          case "edit":
+            modal.attr("data-tour-name", "");
+            modal.attr("data-tour-startDate", "");
+            modal.attr("data-tour-endDate", "");
+            modal.attr("data-tour-price", "");
+              break;
+          case undefined:
+              break;
+        }
+        modal.modal('toggle');
     }
     
-    const toggleCreateModal = () => {
-        $('#createTourModal').modal('toggle');
-    }
+    $('#TourDataModal').on('show.bs.modal', (e) => {
+        const modal = $('#TourDataModal')
+        $("#tourName").attr("value", modal.attr("data-tour-name"));
+        $("#startDate").attr("value", modal.attr("data-tour-startDate"));
+        $("#endDate").attr("value", modal.attr("data-tour-endDate"));
+        $("#price").attr("value", modal.attr("data-tour-price"));
+    })
 </script>
