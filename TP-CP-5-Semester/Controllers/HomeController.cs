@@ -36,9 +36,10 @@ public class HomeController : Controller
         return RedirectPermanent("/");
     }
 
-    public IActionResult EditTour(Tour tour)
+    public async Task<IActionResult> EditTour(Tour tour)
     {
         _db.Tours.Update(tour);
+        await _db.SaveChangesAsync();
         return RedirectPermanent("/");
     }
 
