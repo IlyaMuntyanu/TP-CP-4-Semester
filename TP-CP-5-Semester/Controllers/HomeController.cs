@@ -36,6 +36,12 @@ public class HomeController : Controller
         return RedirectPermanent("/");
     }
 
+    public IActionResult EditTour(Tour tour)
+    {
+        _db.Tours.Update(tour);
+        return RedirectPermanent("/");
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
