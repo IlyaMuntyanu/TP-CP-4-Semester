@@ -30,7 +30,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Создать путевку</h5>
+                    <h5 class="modal-title" id="dataModalTitle"></h5>
                     <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleDataModal('create')">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -144,14 +144,15 @@
         const modal = $('#TourDataModal')
         switch (action) {
           case "create":
+            modal.attr("data-title", "Создать путёвку");
             modal.attr("data-tour-name", "");
             modal.attr("data-tour-startDate", "");
             modal.attr("data-tour-endDate", "");
             modal.attr("data-tour-price", "");
             break;
           case "edit":
+              modal.attr("data-title", "Редактировать путёвку");
               axios.get(`/Data/Tour/${id}`).then(response => {
-                  console.log(response.data);
                 modal.attr("data-tour-name", response.data.name);
                 modal.attr("data-tour-startDate", response.data.startDate);
                 modal.attr("data-tour-endDate", response.data.endDate);
@@ -167,8 +168,8 @@
     }
     
     $('#TourDataModal').on('shown.bs.modal', (e) => {
-        console.log("tick");
         const modal = $('#TourDataModal')
+        $("#dataModalTitle").text(modal.attr("data-title"));
         $("#tourName").attr("value", modal.attr("data-tour-name"));
         $("#startDate").attr("value", modal.attr("data-tour-startDate"));
         $("#endDate").attr("value", modal.attr("data-tour-endDate"));
