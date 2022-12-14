@@ -96,7 +96,7 @@
                         {
                             <td>
                                 <div class="btn-group">
-                                    <button class="btn btn-primary" title="Редактировать">
+                                    <button class="btn btn-primary" onclick="toggleDataModal('edit', @tour.Id)" title="Редактировать">
                                         <i class="fa-solid fa-pencil"></i>
                                     </button>
                                     <button class="btn btn-danger" onclick="toggleDeleteModal(@tour.Id)" title="Удалить">
@@ -125,6 +125,7 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 
     let selectedEntry = 0;
@@ -139,7 +140,7 @@
         window.location.href = "/Home/DeleteTour/" + selectedEntry;
     }
     
-    const toggleDataModal = (action) => {
+    const toggleDataModal = (action, id) => {
         const modal = $('#TourDataModal')
         switch (action) {
           case "create":
@@ -149,10 +150,15 @@
             modal.attr("data-tour-price", "");
             break;
           case "edit":
-            modal.attr("data-tour-name", "");
-            modal.attr("data-tour-startDate", "");
-            modal.attr("data-tour-endDate", "");
-            modal.attr("data-tour-price", "");
+              axios.get(`/Data/Tour/${id}`).then(response => {
+                  console.log(response.data);
+                modal.attr("data-tour-name", response.data.name);
+                modal.attr("data-tour-startDate", response.data.startDate);
+                modal.attr("data-tour-endDate", response.data.endDate);
+                modal.attr("data-tour-price", response.data.price);
+              }).catch(error => {
+                  alert(error)
+              })
               break;
           case undefined:
               break;
@@ -160,7 +166,8 @@
         modal.modal('toggle');
     }
     
-    $('#TourDataModal').on('show.bs.modal', (e) => {
+    $('#TourDataModal').on('shown.bs.modal', (e) => {
+        console.log("tick");
         const modal = $('#TourDataModal')
         $("#tourName").attr("value", modal.attr("data-tour-name"));
         $("#startDate").attr("value", modal.attr("data-tour-startDate"));
