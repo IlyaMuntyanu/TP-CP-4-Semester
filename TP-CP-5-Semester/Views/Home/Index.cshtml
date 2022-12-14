@@ -36,7 +36,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form style="text-align: left" method="post" action="/Home/CreateTour">
+                    <form style="text-align: left" method="post" action="/Home/CreateTour" id="dataModalForm">
                         <div class="form-group m-2">
                             <label for="tourName">Название путёвки</label>
                             <input type="text" class="form-control" id="tourName" name="name" placeholder="Название путёвки">
@@ -65,7 +65,7 @@
         </div>
     </div>
 
-    <button type="button" class="btn btn-primary m-5" onclick="toggleDataModal()">
+    <button type="button" class="btn btn-primary m-5" onclick="toggleDataModal('create')">
         <i class="fa fa-plus"></i> Создать
     </button>
 
