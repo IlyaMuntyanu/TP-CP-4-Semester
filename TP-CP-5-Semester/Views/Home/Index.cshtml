@@ -152,6 +152,7 @@
             modal.attr("data-tour-startDate", "");
             modal.attr("data-tour-endDate", "");
             modal.attr("data-tour-price", "");
+            modal.attr("data-tour-action", "/Home/CreateTour");
             break;
           case "edit":
               modal.attr("data-title", "Редактировать путёвку");
@@ -161,6 +162,8 @@
                 modal.attr("data-tour-startDate", response.data.startDate);
                 modal.attr("data-tour-endDate", response.data.endDate);
                 modal.attr("data-tour-price", response.data.price);
+                modal.attr("data-tour-action", "/Home/EditTour");
+                
               }).catch(error => {
                   alert(error)
               })
@@ -174,6 +177,7 @@
     $('#TourDataModal').on('shown.bs.modal', (e) => {
         const modal = $('#TourDataModal')
         $("#dataModalTitle").text(modal.attr("data-title"));
+        $("#dataModalForm").attr("action", modal.attr("data-tour-action"));
         $("#tourId").attr("value", modal.attr("data-tour-id"));
         $("#tourName").attr("value", modal.attr("data-tour-name"));
         $("#startDate").attr("value", modal.attr("data-tour-startDate"));
