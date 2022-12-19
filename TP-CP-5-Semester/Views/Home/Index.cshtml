@@ -1,133 +1,133 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @inject SignInManager<IdentityUser> SignInManager
 @{
-    ViewData["Title"] = "Главная";
+  ViewData["Title"] = "Главная";
 }
 
 <div class="text-center">
 
-    <div class="modal fade" id="deleteTourModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Подтверждение</h5>
-                    <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleDeleteModal()">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p>Удалить путевку?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="toggleDeleteModal()">Закрыть</button>
-                    <button type="button" class="btn btn-primary" onclick="deleteTour()">Удалить</button>
-                </div>
-            </div>
+  <div class="modal fade" id="deleteTourModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Подтверждение</h5>
+          <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleDeleteModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-    </div>
-
-    <div class="modal fade" id="TourDataModal" tabindex="-1" role="dialog" aria-labelledby="createModal" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="dataModalTitle"></h5>
-                    <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleDataModal('create')">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form style="text-align: left" method="post" action="/Home/CreateTour" id="dataModalForm">
-                        
-                        <input type="hidden" id="tourId" name="id"/>
-                        
-                        <div class="form-group m-2">
-                            <label for="tourName">Название путёвки</label>
-                            <input type="text" class="form-control" id="tourName" name="name" placeholder="Название путёвки">
-                        </div>
-                        <div class="form-group m-2">
-                            <label for="startDate">Дата начала</label>
-                            <input type="date" class="form-control" id="startDate" name="startDate" placeholder="Дата начала поездки">
-                        </div>
-                        <div class="form-group m-2">
-                            <label for="endDate">Дата конца</label>
-                            <input type="date" class="form-control" id="endDate" name="endDate" placeholder="Дата конца поездки">
-                        </div>
-
-                        <div class="form-group m-2">
-                            <label for="price">Стоимость</label>
-                            <input type="number" class="form-control" id="price" name="price" placeholder="Стоимость">
-                        </div>
-
-                        <button type="submit" class="btn btn-success m-2">Сохранить</button>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="toggleDataModal()">Отменить</button>
-                </div>
-            </div>
+        <div class="modal-body">
+          <p>Удалить путевку?</p>
         </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="toggleDeleteModal()">Закрыть</button>
+          <button type="button" class="btn btn-primary" onclick="deleteTour()">Удалить</button>
+        </div>
+      </div>
     </div>
+  </div>
 
-    @if (User.IsInRole("Manager"))
-    {
+  <div class="modal fade" id="TourDataModal" tabindex="-1" role="dialog" aria-labelledby="createModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="dataModalTitle"></h5>
+          <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleDataModal('create')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form style="text-align: left" method="post" action="/Home/CreateTour" id="dataModalForm">
+
+            <input type="hidden" id="tourId" name="id"/>
+
+            <div class="form-group m-2">
+              <label for="tourName">Название путёвки</label>
+              <input type="text" class="form-control" id="tourName" name="name" placeholder="Название путёвки">
+            </div>
+            <div class="form-group m-2">
+              <label for="startDate">Дата начала</label>
+              <input type="date" class="form-control" id="startDate" name="startDate" placeholder="Дата начала поездки">
+            </div>
+            <div class="form-group m-2">
+              <label for="endDate">Дата конца</label>
+              <input type="date" class="form-control" id="endDate" name="endDate" placeholder="Дата конца поездки">
+            </div>
+
+            <div class="form-group m-2">
+              <label for="price">Стоимость</label>
+              <input type="number" class="form-control" id="price" name="price" placeholder="Стоимость">
+            </div>
+
+            <button type="submit" class="btn btn-success m-2">Сохранить</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="toggleDataModal()">Отменить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (User.IsInRole("Manager"))
+  {
     <button type="button" class="btn btn-primary m-5" onclick="toggleDataModal('create')">
-        <i class="fa fa-plus"></i> Создать
+      <i class="fa fa-plus"></i> Создать
     </button>
-    }
+  }
 
-    @if (ViewBag.ToursList.Count > 0)
-    {
-        <table class="table">
-            <thead>
-            <td>Название</td>
-            <td>Дата начала</td>
-            <td>Дата конца</td>
-            <td>Цена</td>
-            @if (SignInManager.IsSignedIn(User))
+  @if (ViewBag.ToursList.Count > 0)
+  {
+    <table class="table">
+      <thead>
+      <td>Название</td>
+      <td>Дата начала</td>
+      <td>Дата конца</td>
+      <td>Цена</td>
+      @if (SignInManager.IsSignedIn(User))
+      {
+        <td>Действия</td>
+      }
+      </thead>
+
+      @foreach (Tour tour in ViewBag.ToursList)
+      {
+        <tr class="p-3">
+          <td>@tour.Name</td>
+          <td>@tour.StartDate</td>
+          <td>@tour.EndDate</td>
+          <td>@tour.Price &#8381;</td>
+          @if (SignInManager.IsSignedIn(User))
+          {
+            if (User.IsInRole("Manager"))
             {
-                <td>Действия</td>
+              <td>
+                <div class="btn-group">
+                  <button class="btn btn-primary" onclick="toggleDataModal('edit', @tour.Id)" title="Редактировать">
+                    <i class="fa-solid fa-pencil"></i>
+                  </button>
+                  <button class="btn btn-danger" onclick="toggleDeleteModal(@tour.Id)" title="Удалить">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                  <button class="btn btn-success" onclick="toggleOrderModal(@tour.Id)" title="Забронировать">
+                    <i class="fa-solid fa-cash-register"></i>
+                  </button>
+                </div>
+              </td>
             }
-            </thead>
-
-            @foreach (Tour tour in ViewBag.ToursList)
+            else
             {
-                <tr class="p-3">
-                    <td>@tour.Name</td>
-                    <td>@tour.StartDate</td>
-                    <td>@tour.EndDate</td>
-                    <td>@tour.Price &#8381;</td>
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        if (User.IsInRole("Manager"))
-                        {
-                            <td>
-                                <div class="btn-group">
-                                    <button class="btn btn-primary" onclick="toggleDataModal('edit', @tour.Id)" title="Редактировать">
-                                        <i class="fa-solid fa-pencil"></i>
-                                    </button>
-                                    <button class="btn btn-danger" onclick="toggleDeleteModal(@tour.Id)" title="Удалить">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </button>
-                                    <button class="btn btn-success" onclick="toggleOrderModal(@tour.Id)" title="Забронировать">
-                                        <i class="fa-solid fa-cash-register"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        }
-                        else
-                        {
-                            <td>Not a manager!</td>
-                        }
-                    }
-                </tr>
+              <td>Not a manager!</td>
             }
+          }
+        </tr>
+      }
 
-        </table>
-    }
-    else
-    {
-        <p>Записей нет</p>
-    }
+    </table>
+  }
+  else
+  {
+    <p>Записей нет</p>
+  }
 
 </div>
 
