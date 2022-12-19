@@ -7,12 +7,12 @@
 <h1>Список путёвок</h1>
 
 <div class="text-right">
-    @if (User.IsInRole("Manager"))
-    {
-      <button type="button" class="btn btn-primary m-5" onclick="toggleDataModal('create')">
-        <i class="fa fa-plus"></i> Создать
-      </button>
-    }
+  @if (User.IsInRole("Manager"))
+  {
+    <button type="button" class="btn btn-primary m-5" onclick="toggleDataModal('create')">
+      <i class="fa fa-plus"></i> Создать
+    </button>
+  }
 </div>
 
 <div class="text-center">
@@ -78,26 +78,49 @@
       </div>
     </div>
   </div>
-  
+
   <div class="modal fade" id="orderTourModal" tabindex="-1" role="dialog" aria-labelledby="orderModal" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Подтверждение брони</h5>
-            <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleOrderModal()">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>Действительно хотите забронировать эту путевку?</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="toggleOrderModal()">Закрыть</button>
-            <button type="button" class="btn btn-success" onclick="orderTour()">Забронировать</button>
-          </div>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Подтверждение брони</h5>
+          <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleOrderModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form style="text-align: left" method="post" action="/Home/OrderTour" id="orderModalForm">
+
+            <input type="hidden" id="orderTourId" name="tourId"/>
+            <input type="hidden" id="orderUserEmail" name="email"/>
+
+            <div class="form-group m-2">
+              <label for="orderTourName">Название путёвки</label>
+              <input type="text" class="form-control" id="orderTourName" placeholder="Название путёвки" readonly>
+            </div>
+            <div class="form-group m-2">
+              <label for="orderStartDate">Дата начала</label>
+              <input type="date" class="form-control" id="orderStartDate" placeholder="Дата начала поездки" readonly>
+            </div>
+            <div class="form-group m-2">
+              <label for="orderEndDate">Дата конца</label>
+              <input type="date" class="form-control" id="orderEndDate" placeholder="Дата конца поездки" readonly>
+            </div>
+
+            <div class="form-group m-2">
+              <label for="orderPrice">Стоимость</label>
+              <input type="number" class="form-control" id="orderPrice" placeholder="Стоимость" readonly>
+            </div>
+
+            <button type="submit" class="btn btn-success m-2">Сохранить</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="toggleOrderModal()">Закрыть</button>
         </div>
       </div>
     </div>
+  </div>
 
   @if (ViewBag.ToursList.Count > 0)
   {
@@ -203,6 +226,18 @@
       
       if (id) {
         modal.attr("data-tour-id", id);
+        
+        axios.get(`/Data/Tour/${id}`).then(response => {
+          modal.attr("data-tour-id", response.data.id);  
+          modal.attr("data-tour-name", response.data.name);
+          modal.attr("data-tour-startDate", response.data.startDate);
+          modal.attr("data-tour-endDate", response.data.endDate);
+          modal.attr("data-tour-price", response.data.price);
+          
+        }).catch(error => {
+            alert(error)
+        })
+        
       }
       
       modal.modal('toggle');
@@ -217,5 +252,15 @@
         $("#startDate").attr("value", modal.attr("data-tour-startDate"));
         $("#endDate").attr("value", modal.attr("data-tour-endDate"));
         $("#price").attr("value", modal.attr("data-tour-price"));
+    })
+    
+    $('#orderTourModal').on('shown.bs.modal', (e) => {
+        const modal = $('#orderTourModal')
+        $("#orderTourId").attr("value", modal.attr("data-tour-id"));
+        $("#orderUserEmail").attr("value", "@User.Identity?.Name");
+        $("#orderTourName").attr("value", modal.attr("data-tour-name"));
+        $("#orderStartDate").attr("value", modal.attr("data-tour-startDate"));
+        $("#orderEndDate").attr("value", modal.attr("data-tour-endDate"));
+        $("#orderPrice").attr("value", modal.attr("data-tour-price"));
     })
 </script>
