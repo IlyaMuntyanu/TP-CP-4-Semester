@@ -16,7 +16,7 @@ public class DataController: ControllerBase
         _db = db;
     }
 
-    [HttpGet("Tour/{id}")]
+    [HttpGet("Tour/{id:long}")]
     public async Task<Tour> GetTourById(long id)
     {
         return await _db.Tours.Where(tour => tour.Id == id).FirstAsync();
