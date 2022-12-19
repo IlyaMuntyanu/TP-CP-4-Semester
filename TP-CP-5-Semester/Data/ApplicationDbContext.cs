@@ -4,7 +4,7 @@ using TP_CP_5_Semester.Models;
 
 namespace TP_CP_5_Semester.Data;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : IdentityDbContext<User>
 {
     public DbSet<Tour> Tours => Set<Tour>();
     public DbSet<Booking> Bookings => Set<Booking>();
@@ -12,6 +12,5 @@ public class ApplicationDbContext : IdentityDbContext
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
-        Database.EnsureCreated();
     }
 }
