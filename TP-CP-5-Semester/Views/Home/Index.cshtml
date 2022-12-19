@@ -4,6 +4,17 @@
   ViewData["Title"] = "Главная";
 }
 
+<h1>Список путёвок</h1>
+
+<div class="text-right">
+    @if (User.IsInRole("Manager"))
+    {
+      <button type="button" class="btn btn-primary m-5" onclick="toggleDataModal('create')">
+        <i class="fa fa-plus"></i> Создать
+      </button>
+    }
+</div>
+
 <div class="text-center">
 
   <div class="modal fade" id="deleteTourModal" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
@@ -67,13 +78,6 @@
       </div>
     </div>
   </div>
-
-  @if (User.IsInRole("Manager"))
-  {
-    <button type="button" class="btn btn-primary m-5" onclick="toggleDataModal('create')">
-      <i class="fa fa-plus"></i> Создать
-    </button>
-  }
 
   @if (ViewBag.ToursList.Count > 0)
   {
