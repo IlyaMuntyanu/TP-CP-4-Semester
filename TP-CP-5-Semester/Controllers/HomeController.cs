@@ -50,6 +50,8 @@ public class HomeController : Controller
         var bookingStatus = await _db.BookingStatuses.Where(bs => bs.Name.Equals("Забронировано")).FirstAsync();
         var tour = await _db.Tours.FindAsync(body.TourId);
         ArgumentNullException.ThrowIfNull(tour);
+        
+        user.Balance -= tour.Price;
 
         var booking = new Booking
         {
