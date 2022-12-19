@@ -96,11 +96,12 @@
           <td>@tour.StartDate</td>
           <td>@tour.EndDate</td>
           <td>@tour.Price &#8381;</td>
-          @if (SignInManager.IsSignedIn(User))
-          {
-            if (User.IsInRole("Manager"))
+
+          <td>
+            @if (SignInManager.IsSignedIn(User))
             {
-              <td>
+              if (User.IsInRole("Manager"))
+              {
                 <div class="btn-group">
                   <button class="btn btn-primary" onclick="toggleDataModal('edit', @tour.Id)" title="Редактировать">
                     <i class="fa-solid fa-pencil"></i>
@@ -108,17 +109,13 @@
                   <button class="btn btn-danger" onclick="toggleDeleteModal(@tour.Id)" title="Удалить">
                     <i class="fa-solid fa-trash"></i>
                   </button>
-                  <button class="btn btn-success" onclick="toggleOrderModal(@tour.Id)" title="Забронировать">
-                    <i class="fa-solid fa-cash-register"></i>
-                  </button>
                 </div>
-              </td>
+              }
             }
-            else
-            {
-              <td>Not a manager!</td>
-            }
-          }
+            <button class="btn btn-success" onclick="toggleOrderModal(@tour.Id)" title="Забронировать">
+              <i class="fa-solid fa-cash-register"></i>
+            </button>
+          </td>
         </tr>
       }
 
