@@ -78,6 +78,26 @@
       </div>
     </div>
   </div>
+  
+  <div class="modal fade" id="orderTourModal" tabindex="-1" role="dialog" aria-labelledby="orderModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Подтверждение брони</h5>
+            <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="toggleOrderModal()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Действительно хотите забронировать эту путевку?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="toggleOrderModal()">Закрыть</button>
+            <button type="button" class="btn btn-success" onclick="orderTour()">Забронировать</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
   @if (ViewBag.ToursList.Count > 0)
   {
@@ -176,6 +196,16 @@
               break;
         }
         modal.modal('toggle');
+    }
+    
+    const toggleOrderModal = (id) => {
+      const modal = $("#orderTourModal");
+      
+      if (id) {
+        modal.attr("data-tour-id", id);
+      }
+      
+      modal.modal('toggle');
     }
     
     $('#TourDataModal').on('shown.bs.modal', (e) => {
