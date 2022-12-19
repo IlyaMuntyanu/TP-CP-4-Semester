@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TP_CP_5_Semester.Data;
 using TP_CP_5_Semester.Models;
+using TP_CP_5_Semester.RequestBodies;
 
 namespace TP_CP_5_Semester.Controllers;
 
@@ -40,6 +41,27 @@ public class HomeController : Controller
     {
         _db.Tours.Update(tour);
         await _db.SaveChangesAsync();
+        return RedirectPermanent("/");
+    }
+
+    public async Task<IActionResult> OrderTour(OrderRequest body)
+    {
+        var user = await _db.Users.Where(user => user.UserName == body.Email).FirstAsync();
+        var bookingStatus = await _db.BookingStatuses.Where(bs => bs.Name.Equals("Забронировано")).FirstAsync();
+        var tour = await _db.Tours.FindAsync(body.TourId);
+        ArgumentNullException.ThrowIfNull(tour);
+
+        var booking = new Booking
+        {
+            Amount = body.Amount,
+            Status = bookingStatus,
+            Tour = tour,
+            User = user
+        };
+
+        await _db.Bookings.AddAsync(booking);
+        await _db.SaveChangesAsync();
+        
         return RedirectPermanent("/");
     }
 
