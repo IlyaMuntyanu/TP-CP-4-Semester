@@ -53,7 +53,7 @@ public class HomeController : Controller
         var tour = await _db.Tours.FindAsync(body.TourId);
         ArgumentNullException.ThrowIfNull(tour);
         
-        user.Balance -= tour.Price;
+        user.Balance -= tour.Price * body.Amount;
 
         var booking = new Booking
         {
