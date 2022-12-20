@@ -146,32 +146,35 @@
 
       @foreach (Tour tour in ViewBag.ToursList)
       {
-        <tr class="p-3">
-          <td>@tour.Name</td>
-          <td>@tour.StartDate</td>
-          <td>@tour.EndDate</td>
-          <td>@tour.Price &#8381;</td>
+        @if (tour.StartDate > DateOnly.FromDateTime(DateTime.Today))
+        {
+          <tr class="p-3">
+            <td>@tour.Name</td>
+            <td>@tour.StartDate</td>
+            <td>@tour.EndDate</td>
+            <td>@tour.Price &#8381;</td>
 
-          <td>
-            @if (SignInManager.IsSignedIn(User))
-            {
-              if (User.IsInRole("Manager"))
+            <td>
+              @if (SignInManager.IsSignedIn(User))
               {
-                <div class="btn-group">
-                  <button class="btn btn-primary" onclick="toggleDataModal('edit', @tour.Id)" title="Редактировать">
-                    <i class="fa-solid fa-pencil"></i>
-                  </button>
-                  <button class="btn btn-danger" onclick="toggleDeleteModal(@tour.Id)" title="Удалить">
-                    <i class="fa-solid fa-trash"></i>
-                  </button>
-                </div>
+                if (User.IsInRole("Manager"))
+                {
+                  <div class="btn-group">
+                    <button class="btn btn-primary" onclick="toggleDataModal('edit', @tour.Id)" title="Редактировать">
+                      <i class="fa-solid fa-pencil"></i>
+                    </button>
+                    <button class="btn btn-danger" onclick="toggleDeleteModal(@tour.Id)" title="Удалить">
+                      <i class="fa-solid fa-trash"></i>
+                    </button>
+                  </div>
+                }
+                <button class="btn btn-success" onclick="toggleOrderModal(@tour.Id)" title="Забронировать">
+                  <i class="fa-solid fa-cash-register"></i>
+                </button>
               }
-              <button class="btn btn-success" onclick="toggleOrderModal(@tour.Id)" title="Забронировать">
-                <i class="fa-solid fa-cash-register"></i>
-              </button>
-            }
-          </td>
-        </tr>
+            </td>
+          </tr>
+        }
       }
 
     </table>
