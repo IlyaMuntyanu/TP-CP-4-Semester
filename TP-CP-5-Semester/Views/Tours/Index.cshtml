@@ -4,3 +4,8 @@
 }
 
 <h1>План поездки</h1>
+
+@foreach (Booking booking in ViewBag.BookingsList)
+{
+  <p>@booking.Tour.Name</p>
+}
