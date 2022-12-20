@@ -21,7 +21,8 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         ViewBag.ToursList = await _db.Tours.ToListAsync();
-        ViewBag.UserBalance = (await _db.Users.Where(user => user.Email == User.Identity.Name).FirstAsync()).Balance;
+        if (User.Identity.IsAuthenticated)
+            ViewBag.UserBalance = (await _db.Users.Where(user => user.Email == User.Identity.Name).FirstAsync()).Balance;
         return View();
     }
 
