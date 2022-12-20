@@ -89,9 +89,9 @@
           </button>
         </div>
         <div class="modal-body">
-          
+
           <h4>Вы действительно хотите заказать эту путевку?</h4>
-          
+
           <form style="text-align: left" method="post" action="/Home/OrderTour" id="orderModalForm">
 
             <input type="hidden" id="orderTourId" name="tourId"/>
@@ -114,7 +114,7 @@
               <label for="orderPrice">Стоимость</label>
               <input type="number" class="form-control" id="orderPrice" placeholder="Стоимость" readonly>
             </div>
-            
+
             <div class="form-group m-2">
               <label for="orderAmount">Количество</label>
               <input type="number" class="form-control" id="orderAmount" name="amount"/>
@@ -166,10 +166,10 @@
                   </button>
                 </div>
               }
+              <button class="btn btn-success" onclick="toggleOrderModal(@tour.Id)" title="Забронировать">
+                <i class="fa-solid fa-cash-register"></i>
+              </button>
             }
-            <button class="btn btn-success" onclick="toggleOrderModal(@tour.Id)" title="Забронировать">
-              <i class="fa-solid fa-cash-register"></i>
-            </button>
           </td>
         </tr>
       }
