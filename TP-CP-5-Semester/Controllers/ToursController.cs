@@ -15,13 +15,13 @@ public class ToursController : Controller
 
     public async Task<IActionResult> Index()
     {
-        if (User.Identity.IsAuthenticated)
-        {
-            ViewBag.BookingsList = await _db.Bookings.Where(b => b.User.Email == User.Identity.Name)
-                .Include(b => b.Tour)
-                .Include(b => b.Status).ToListAsync();
-            ViewBag.UserBalance = (await _db.Users.Where(u => u.Email == User.Identity.Name).FirstAsync()).Balance;
-        }
+        if (!User.Identity.IsAuthenticated) return View();
+        
+        ViewBag.BookingsList = await _db.Bookings.Where(b => b.User.Email == User.Identity.Name)
+            .Include(b => b.Tour)
+            .Include(b => b.Status)
+            .ToListAsync();
+        ViewBag.UserBalance = (await _db.Users.Where(u => u.Email == User.Identity.Name).FirstAsync()).Balance;
 
         return View();
     }
