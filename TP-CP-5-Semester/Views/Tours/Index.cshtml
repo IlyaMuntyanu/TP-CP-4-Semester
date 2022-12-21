@@ -5,7 +5,31 @@
 
 <h1>План поездки</h1>
 
-@foreach (Booking booking in ViewBag.BookingsList)
-{
-  <p>@booking.Tour.Name</p>
-}
+
+  <table class="table">
+    <thead>
+    <td>Название путевки</td>
+    <td>Даты</td>
+    <td>Количество</td>
+    <td>Статус</td>
+    <td>Действия</td>
+    </thead>
+    @foreach (Booking booking in ViewBag.BookingsList)
+    {
+      @if (booking.Tour.StartDate > DateOnly.FromDateTime(DateTime.Today))
+      {
+        <tr class="p-3">
+          <td>@booking.Tour.Name</td>
+          <td>@booking.Tour.StartDate - @booking.Tour.EndDate</td>
+          <td>@booking.Amount</td>
+          <td>@booking.Status.Name</td>
+          <td>
+            <ul>
+              <li>Отменить бронь</li>
+              <li>Оплатить</li>
+            </ul>
+          </td>
+        </tr>
+      }
+    }
+  </table>
