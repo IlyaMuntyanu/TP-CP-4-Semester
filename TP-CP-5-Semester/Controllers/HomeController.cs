@@ -18,11 +18,14 @@ public class HomeController : Controller
         _db = db;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index([FromQuery] bool ordered = false)
     {
         ViewBag.ToursList = await _db.Tours.ToListAsync();
         if (User.Identity.IsAuthenticated)
             ViewBag.UserBalance = (await _db.Users.Where(user => user.Email == User.Identity.Name).FirstAsync()).Balance;
+
+        ViewBag.IsOrdered = ordered;
+        
         return View();
     }
 
@@ -64,7 +67,7 @@ public class HomeController : Controller
         await _db.Bookings.AddAsync(booking);
         await _db.SaveChangesAsync();
         
-        return RedirectPermanent("/");
+        return RedirectPermanent("/?ordered=true");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
