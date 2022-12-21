@@ -25,4 +25,13 @@ public class ToursController : Controller
 
         return View();
     }
+
+    public async Task<IActionResult> CancelBooking(int bookingId)
+    {
+        var booking = await _db.Bookings.Where(b => b.Id == bookingId).FirstAsync();
+        booking.Status = await _db.BookingStatuses.Where(bs => bs.Name == "Отменено").FirstAsync();
+        await _db.SaveChangesAsync();
+
+        return RedirectPermanent("/Tours");
+    }
 }
