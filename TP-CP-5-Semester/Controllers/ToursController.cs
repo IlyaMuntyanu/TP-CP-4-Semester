@@ -20,6 +20,7 @@ public class ToursController : Controller
         ViewBag.BookingsList = await _db.Bookings.Where(b => b.User.Email == User.Identity.Name)
             .Include(b => b.Tour)
             .Include(b => b.Status)
+            .OrderBy(b => b.Tour.Name)
             .ToListAsync();
         ViewBag.UserBalance = (await _db.Users.Where(u => u.Email == User.Identity.Name).FirstAsync()).Balance;
 
