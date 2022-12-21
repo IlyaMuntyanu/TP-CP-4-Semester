@@ -27,11 +27,14 @@
           <div class="d-flex justify-content-evenly">
             @if (booking.Status.Name == "Забронировано")
             {
-              <button class="btn btn-primary" title="Оплатить">
-                <i class="fa-solid fa-cart-shopping"></i>
-              </button>
+              <form action="/Tours/PayForBooking">
+                <input type="hidden" value="@booking.Id" name="bookingId"/>
+                <button class="btn btn-primary" title="Оплатить бронь" type="submit">
+                  <i class="fa-solid fa-cart-shopping"></i>
+                </button>
+              </form>
             }
-            @if (booking.Status.Name == "Забронировано")
+            @if (booking.Status.Name is "Забронировано" or "Оплачено")
             {
               <form action="/Tours/CancelBooking">
                 <input type="hidden" value="@booking.Id" name="bookingId"/>

@@ -44,4 +44,19 @@ public class ToursController : Controller
 
         return RedirectPermanent("/Tours");
     }
+
+    public async Task<IActionResult> PayForBooking(int bookingId)
+    {
+        var booking = await _db.Bookings.Where(b => b.Id == bookingId)
+            .Include(b => b.Tour)
+            .Include(b => b.User)
+            .FirstAsync();
+
+        booking.User.Balance -= booking.Amount * booking.Tour.Price;
+
+        booking.Status = await _db.BookingStatuses.Where(bs => bs.Name == "Оплачено").FirstAsync();
+        await _db.SaveChangesAsync();
+
+        return RedirectPermanent("/Tours");
+    }
 }
