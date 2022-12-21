@@ -31,12 +31,15 @@
                 <i class="fa-solid fa-cart-shopping"></i>
               </button>
             }
-            <form action="/Tours/CancelBooking">
-              <input type="hidden" value="@booking.Id" name="bookingId"/>
-              <button class="btn btn-danger" title="Отменить бронь" type="submit">
-                <i class="fa-solid fa-times"></i>
-              </button>
-            </form>
+            @if (booking.Status.Name == "Забронировано")
+            {
+              <form action="/Tours/CancelBooking">
+                <input type="hidden" value="@booking.Id" name="bookingId"/>
+                <button class="btn btn-danger" title="Отменить бронь" type="submit">
+                  <i class="fa-solid fa-times"></i>
+                </button>
+              </form>
+            }
           </div>
         </td>
       </tr>
