@@ -6,30 +6,37 @@
 <h1>План поездки</h1>
 
 
-  <table class="table">
-    <thead>
-    <td>Название путевки</td>
-    <td>Даты</td>
-    <td>Количество</td>
-    <td>Статус</td>
-    <td>Действия</td>
-    </thead>
-    @foreach (Booking booking in ViewBag.BookingsList)
+<table class="table">
+  <thead>
+  <td>Название путевки</td>
+  <td>Даты</td>
+  <td>Количество</td>
+  <td>Статус</td>
+  <td>Действия</td>
+  </thead>
+  @foreach (Booking booking in ViewBag.BookingsList)
+  {
+    @if (booking.Tour.StartDate > DateOnly.FromDateTime(DateTime.Today))
     {
-      @if (booking.Tour.StartDate > DateOnly.FromDateTime(DateTime.Today))
-      {
-        <tr class="p-3">
-          <td>@booking.Tour.Name</td>
-          <td>@booking.Tour.StartDate - @booking.Tour.EndDate</td>
-          <td>@booking.Amount</td>
-          <td>@booking.Status.Name</td>
-          <td>
-            <ul>
-              <li>Отменить бронь</li>
-              <li>Оплатить</li>
-            </ul>
-          </td>
-        </tr>
-      }
+      <tr class="p-3">
+        <td>@booking.Tour.Name</td>
+        <td>@booking.Tour.StartDate - @booking.Tour.EndDate</td>
+        <td>@booking.Amount</td>
+        <td>@booking.Status.Name</td>
+        <td>
+          <div class="btn-group">
+            @if (booking.Status.Name == "Забронировано")
+            {
+              <button class="btn btn-primary" title="Оплатить">
+                <i class="fa-solid fa-cart-shopping"></i>
+              </button>
+            }
+            <button class="btn btn-danger" title="Отменить бронь">
+              <i class="fa-solid fa-times"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
     }
-  </table>
+  }
+</table>
