@@ -16,7 +16,7 @@ public class ToursController : Controller
     public async Task<IActionResult> Index()
     {
         if (!User.Identity.IsAuthenticated) return View();
-        
+
         ViewBag.BookingsList = await _db.Bookings.Where(b => b.User.Email == User.Identity.Name)
             .Include(b => b.Tour)
             .Include(b => b.Status)
@@ -28,7 +28,17 @@ public class ToursController : Controller
 
     public async Task<IActionResult> CancelBooking(int bookingId)
     {
-        var booking = await _db.Bookings.Where(b => b.Id == bookingId).FirstAsync();
+        var booking = await _db.Bookings.Where(b => b.Id == bookingId)
+            .Include(b => b.Tour)
+            .Include(b => b.Status)
+            .Include(b => b.User)
+            .FirstAsync();
+
+        if (booking.Status.Name == "Оплачено")
+        {
+            booking.User.Balance += booking.Amount * booking.Tour.Price;
+        }
+
         booking.Status = await _db.BookingStatuses.Where(bs => bs.Name == "Отменено").FirstAsync();
         await _db.SaveChangesAsync();
 
