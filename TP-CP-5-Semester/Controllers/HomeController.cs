@@ -21,7 +21,7 @@ public class HomeController : Controller
     public async Task<IActionResult> Index([FromQuery] bool ordered = false)
     {
         ViewBag.ToursList = await _db.Tours.ToListAsync();
-        if (User.Identity.IsAuthenticated)
+        if (User.Identity.IsAuthenticated && (await _db.Users.ToListAsync()).Count > 0)
             ViewBag.UserBalance = (await _db.Users.Where(user => user.Email == User.Identity.Name).FirstAsync()).Balance;
 
         ViewBag.IsOrdered = ordered;
