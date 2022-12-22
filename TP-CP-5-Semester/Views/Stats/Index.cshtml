@@ -4,3 +4,21 @@
 }
 
 <h1>Статистика продаж</h1>
+
+<table class="table">
+
+  <thead>
+  <td>Название путёвки</td>
+  <td>Количество проданных</td>
+  <td>Продано на сумму</td>
+  </thead>
+
+  @foreach (Booking booking in ViewBag.Stats)
+  {
+    <tr>
+      <td>@booking.Tour.Name</td>
+      <td>@booking.Amount</td>
+      <td>@(booking.Tour.Price * booking.Amount) &#8381;</td>
+    </tr>
+  }
+</table>
