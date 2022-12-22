@@ -37,7 +37,15 @@ public class ToursController : Controller
 
         if (booking.Status.Name == "Оплачено")
         {
-            booking.User.Balance += booking.Amount * booking.Tour.Price;
+
+            var discount = 1.0;
+            
+            if ((booking.Tour.StartDate.ToDateTime(TimeOnly.MinValue) - DateTime.Now).Days < 14)
+            {
+                discount = 0.8;
+            }
+            
+            booking.User.Balance += (int)(booking.Amount * booking.Tour.Price * discount);
         }
 
         booking.Status = await _db.BookingStatuses.Where(bs => bs.Name == "Отменено").FirstAsync();
