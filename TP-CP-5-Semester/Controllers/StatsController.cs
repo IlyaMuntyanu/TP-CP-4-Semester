@@ -19,8 +19,15 @@ public class StatsController : Controller
         if (User.Identity.IsAuthenticated && (await _db.Users.ToListAsync()).Count <= 0)
             ViewBag.UserBalance =
                 (await _db.Users.Where(user => user.Email == User.Identity.Name).FirstAsync()).Balance;
+        
+        
+        var paidStatus = await _db.BookingStatuses.Where(bs => bs.Name == "Оплачено").FirstAsync();
 
-        ViewBag.Stats = await _db.Bookings.Include(b => b.Tour).GroupBy(b => b.Tour.Id).Select(b => new Booking
+        ViewBag.Stats = await _db.Bookings
+            .Include(b => b.Tour)
+            .Where(b => b.Status == paidStatus)
+            .GroupBy(b => b.Tour.Id)
+            .Select(b => new Booking
         {
             Tour = b.First().Tour,
             Amount = b.Sum(booking => booking.Amount)
