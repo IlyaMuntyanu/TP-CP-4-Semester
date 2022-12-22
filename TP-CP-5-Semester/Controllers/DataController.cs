@@ -20,7 +20,19 @@ public class DataController : ControllerBase
     [HttpGet("Tour/{id:long}")]
     public async Task<Tour> GetTourById(long id)
     {
-        return await _db.Tours.Where(tour => tour.Id == id).FirstAsync();
+        var tour = await _db.Tours.Where(tour => tour.Id == id).FirstAsync();
+
+        var discount = 1.0;
+        
+        if ((tour.StartDate.ToDateTime(TimeOnly.MinValue) - DateTime.Now).Days < 14)
+        {
+            discount = 0.8;
+        }
+
+        tour.Price = (int)(tour.Price * discount);
+
+        return tour;
+
     }
 
     [HttpGet("Fill")]
