@@ -16,7 +16,7 @@ public class StatsController : Controller
 
     public async Task<IActionResult> Index()
     {
-        if (User.Identity.IsAuthenticated && (await _db.Users.ToListAsync()).Count > 0)
+        if (User.Identity.IsAuthenticated && (await _db.Users.ToListAsync()).Count <= 0)
             ViewBag.UserBalance =
                 (await _db.Users.Where(user => user.Email == User.Identity.Name).FirstAsync()).Balance;
 

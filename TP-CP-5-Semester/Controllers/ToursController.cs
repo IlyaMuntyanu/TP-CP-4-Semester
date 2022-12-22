@@ -15,7 +15,7 @@ public class ToursController : Controller
 
     public async Task<IActionResult> Index()
     {
-        if (User.Identity.IsAuthenticated && (await _db.Users.ToListAsync()).Count > 0) return View();
+        if (User.Identity.IsAuthenticated && (await _db.Users.ToListAsync()).Count <= 0) return View();
 
         ViewBag.BookingsList = await _db.Bookings.Where(b => b.User.Email == User.Identity.Name)
             .Include(b => b.Tour)
