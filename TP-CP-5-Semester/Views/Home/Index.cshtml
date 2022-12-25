@@ -159,6 +159,7 @@
       <td>Дата начала</td>
       <td>Дата конца</td>
       <td>Цена</td>
+      <td>Осталось путёвок</td>
       @if (SignInManager.IsSignedIn(User))
       {
         <td>Действия</td>
@@ -167,7 +168,7 @@
 
       @foreach (Tour tour in ViewBag.ToursList)
       {
-        @if (tour.StartDate > DateOnly.FromDateTime(DateTime.Today) && !tour.Deleted)
+        @if (tour.StartDate > DateOnly.FromDateTime(DateTime.Today) && tour is { Deleted: false, Leftover: > 0 })
         {
           <tr class="p-3">
             <td>@tour.Name</td>
@@ -176,6 +177,7 @@
             <td>
               @tour.Price &#8381;
             </td>
+            <td>@tour.Leftover шт.</td>
 
             <td>
               @if (SignInManager.IsSignedIn(User))
