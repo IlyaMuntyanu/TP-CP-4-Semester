@@ -7,4 +7,5 @@ public class Tour
     public DateOnly StartDate { get; set; }
     public DateOnly EndDate { get; set; }
     public int Price { get; set; }
+    public bool Deleted { get; set; }
 }
