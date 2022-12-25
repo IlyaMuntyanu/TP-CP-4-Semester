@@ -49,6 +49,7 @@ public class ToursController : Controller
         }
 
         booking.Status = await _db.BookingStatuses.Where(bs => bs.Name == "Отменено").FirstAsync();
+        booking.Tour.Leftover += booking.Amount;
         await _db.SaveChangesAsync();
 
         return RedirectPermanent("/Tours");
