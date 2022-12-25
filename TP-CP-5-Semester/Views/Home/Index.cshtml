@@ -174,10 +174,7 @@
             <td>@tour.StartDate</td>
             <td>@tour.EndDate</td>
             <td>
-              @if ((tour.StartDate.ToDateTime(TimeOnly.MinValue) - DateTime.Now).Days < 14)
-              {
-                <del>@tour.Price</del> @((int)(tour.Price * 0.8))
-              } &#8381;
+              @tour.Price &#8381;
             </td>
 
             <td>

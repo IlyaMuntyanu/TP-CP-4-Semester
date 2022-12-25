@@ -20,9 +20,19 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index([FromQuery] bool ordered = false)
     {
-        ViewBag.ToursList = await _db.Tours.ToListAsync();
+        var toursList = await _db.Tours.ToListAsync();
+
+        foreach (var tour in toursList.Where(tour =>
+                     (tour.StartDate.ToDateTime(TimeOnly.MinValue) - DateTime.Now).Days < 14))
+        {
+            tour.Price = (int)(tour.Price * 0.8);
+        }
+
+        ViewBag.ToursList = toursList;
+
         if (User.Identity.IsAuthenticated && (await _db.Users.ToListAsync()).Count > 0)
-            ViewBag.UserBalance = (await _db.Users.Where(user => user.Email == User.Identity.Name).FirstAsync()).Balance;
+            ViewBag.UserBalance =
+                (await _db.Users.Where(user => user.Email == User.Identity.Name).FirstAsync()).Balance;
 
         ViewBag.IsOrdered = ordered;
         
