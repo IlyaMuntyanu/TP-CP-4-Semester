@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TP_CP_5_Semester.Configuration;
 using TP_CP_5_Semester.Data;
 using TP_CP_5_Semester.Models;
 
@@ -8,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 var connectionString = builder.Configuration.GetConnectionString("Default");
+
+ArgumentException.ThrowIfNullOrEmpty(connectionString);
+
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
 
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
@@ -25,6 +29,8 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredLength = 6;
     options.Password.RequiredUniqueChars = 0;
 });
+
+await QuartzConfiguration.Configure(connectionString);
 
 var app = builder.Build();
 
