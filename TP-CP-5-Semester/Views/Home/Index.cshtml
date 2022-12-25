@@ -167,7 +167,7 @@
 
       @foreach (Tour tour in ViewBag.ToursList)
       {
-        @if (tour.StartDate > DateOnly.FromDateTime(DateTime.Today))
+        @if (tour.StartDate > DateOnly.FromDateTime(DateTime.Today) && !tour.Deleted)
         {
           <tr class="p-3">
             <td>@tour.Name</td>
