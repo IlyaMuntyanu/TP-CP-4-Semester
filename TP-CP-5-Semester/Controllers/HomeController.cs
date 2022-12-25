@@ -67,7 +67,7 @@ public class HomeController : Controller
         var tour = await _db.Tours.FindAsync(body.TourId);
         ArgumentNullException.ThrowIfNull(tour);
 
-        if (tour.Leftover <= body.Amount) return RedirectPermanent("/");
+        if (tour.Leftover < body.Amount) return RedirectPermanent("/");
 
         tour.Leftover -= body.Amount;
         
