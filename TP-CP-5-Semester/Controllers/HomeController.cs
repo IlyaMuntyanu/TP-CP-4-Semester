@@ -41,7 +41,10 @@ public class HomeController : Controller
 
     public async Task<IActionResult> DeleteTour(long id)
     {
-        await _db.Tours.Where(tour => tour.Id == id).ExecuteDeleteAsync();
+        var tour = await _db.Tours.Where(tour => tour.Id == id).FirstAsync();
+        tour.Deleted = true;
+        await _db.SaveChangesAsync();
+        
         return RedirectPermanent("/");
     }
 
