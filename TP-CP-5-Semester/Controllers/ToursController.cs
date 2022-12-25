@@ -69,8 +69,10 @@ public class ToursController : Controller
             discount = 0.8;
         }
 
-        booking.User.Balance -= (int)(booking.Amount * booking.Tour.Price * discount);
+        var tourPrice = (int)(booking.Amount * booking.Tour.Price * discount);
 
+        if (booking.User.Balance < tourPrice) return RedirectPermanent("/Tours");
+        booking.User.Balance -= tourPrice;
         booking.Status = await _db.BookingStatuses.Where(bs => bs.Name == "Оплачено").FirstAsync();
         await _db.SaveChangesAsync();
 
