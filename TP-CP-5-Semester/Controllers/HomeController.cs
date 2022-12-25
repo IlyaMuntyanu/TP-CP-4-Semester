@@ -18,7 +18,7 @@ public class HomeController : Controller
         _db = db;
     }
 
-    public async Task<IActionResult> Index([FromQuery] bool ordered = false)
+    public async Task<IActionResult> Index([FromQuery] bool ordered = false, [FromQuery] bool overflow = false)
     {
         var toursList = await _db.Tours.ToListAsync();
 
@@ -35,6 +35,7 @@ public class HomeController : Controller
                 (await _db.Users.Where(user => user.Email == User.Identity.Name).FirstAsync()).Balance;
 
         ViewBag.IsOrdered = ordered;
+        ViewBag.IsOverflow = overflow;
         
         return View();
     }
@@ -67,7 +68,7 @@ public class HomeController : Controller
         var tour = await _db.Tours.FindAsync(body.TourId);
         ArgumentNullException.ThrowIfNull(tour);
 
-        if (tour.Leftover < body.Amount) return RedirectPermanent("/");
+        if (tour.Leftover < body.Amount) return RedirectPermanent("/?overflow=true");
 
         tour.Leftover -= body.Amount;
         
