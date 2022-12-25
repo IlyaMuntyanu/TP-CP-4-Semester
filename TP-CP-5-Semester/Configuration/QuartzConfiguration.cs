@@ -1,12 +1,15 @@
 using Quartz;
+using TP_CP_5_Semester.ScheduledTasks;
 
 namespace TP_CP_5_Semester.Configuration;
 
 public static class QuartzConfiguration
 {
+    private static IScheduler? _scheduler;
+
     public static async Task Configure(string connectionString)
     {
-        var scheduler = await SchedulerBuilder.Create()
+        _scheduler = await SchedulerBuilder.Create()
             .UseDefaultThreadPool(options => options.MaxConcurrency = 5)
             .UsePersistentStore(
                 options =>
@@ -18,6 +21,29 @@ public static class QuartzConfiguration
                 })
             .BuildScheduler();
 
-        await scheduler.Start();
+        await _scheduler.Start();
+        await RegisterJobs();
+    }
+
+    private static async Task RegisterJobs()
+    {
+        var markBookingsAsFinishedJob = JobBuilder
+            .Create<MarkBookingsAsFinished>()
+            .WithIdentity("markBookingAsFinished")
+            .Build();
+
+        var everydayTrigger = TriggerBuilder
+            .Create()
+            .WithIdentity("everyday")
+            .StartNow()
+            .WithSimpleSchedule(options =>
+            {
+                options.WithIntervalInHours(24);
+                options.RepeatForever();
+            })
+            .Build();
+        
+        ArgumentNullException.ThrowIfNull(_scheduler);
+        await _scheduler.ScheduleJob(markBookingsAsFinishedJob, everydayTrigger);
     }
 }
