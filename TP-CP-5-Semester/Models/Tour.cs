@@ -8,4 +8,5 @@ public class Tour
     public DateOnly EndDate { get; set; }
     public int Price { get; set; }
     public bool Deleted { get; set; }
+    public int Leftover { get; set; }
 }
