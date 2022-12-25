@@ -69,6 +69,11 @@
               <input type="number" class="form-control" id="price" name="price" placeholder="Стоимость">
             </div>
 
+            <div class="form-group m-2">
+              <label for="leftover">Осталось в наличии</label>
+              <input type="number" class="form-control" id="leftover" name="leftover" placeholder="Осталось в наличии">
+            </div>
+
             <button type="submit" class="btn btn-success m-2">Сохранить</button>
           </form>
         </div>
@@ -242,6 +247,7 @@
             modal.attr("data-tour-startDate", "");
             modal.attr("data-tour-endDate", "");
             modal.attr("data-tour-price", "");
+            modal.attr("data-tour-leftover", "");
             modal.attr("data-tour-action", "/Home/CreateTour");
             break;
           case "edit":
@@ -252,6 +258,7 @@
                 modal.attr("data-tour-startDate", response.data.startDate);
                 modal.attr("data-tour-endDate", response.data.endDate);
                 modal.attr("data-tour-price", response.data.price);
+                modal.attr("data-tour-leftover", response.data.leftover);
                 modal.attr("data-tour-action", "/Home/EditTour");
                 
               }).catch(error => {
@@ -276,6 +283,7 @@
           modal.attr("data-tour-startDate", response.data.startDate);
           modal.attr("data-tour-endDate", response.data.endDate);
           modal.attr("data-tour-price", response.data.price);
+          modal.attr("data-tour-leftover", response.data.leftover);
           
         }).catch(error => {
             alert(error)
@@ -295,6 +303,7 @@
         $("#startDate").attr("value", modal.attr("data-tour-startDate"));
         $("#endDate").attr("value", modal.attr("data-tour-endDate"));
         $("#price").attr("value", modal.attr("data-tour-price"));
+        $("#leftover").attr("value", modal.attr("data-tour-leftover"));
     })
     
     $('#orderTourModal').on('shown.bs.modal', (e) => {
