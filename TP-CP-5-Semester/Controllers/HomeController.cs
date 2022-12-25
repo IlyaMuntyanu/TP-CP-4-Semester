@@ -64,10 +64,15 @@ public class HomeController : Controller
 
     public async Task<IActionResult> OrderTour(OrderRequest body)
     {
-        var user = await _db.Users.Where(user => user.UserName == body.Email).FirstAsync();
-        var bookingStatus = await _db.BookingStatuses.Where(bs => bs.Name.Equals("Забронировано")).FirstAsync();
         var tour = await _db.Tours.FindAsync(body.TourId);
         ArgumentNullException.ThrowIfNull(tour);
+
+        if (tour.Leftover <= body.Amount) return RedirectPermanent("/");
+
+        tour.Leftover -= body.Amount;
+        
+        var user = await _db.Users.Where(user => user.UserName == body.Email).FirstAsync();
+        var bookingStatus = await _db.BookingStatuses.Where(bs => bs.Name.Equals("Забронировано")).FirstAsync();
 
         var booking = new Booking
         {
