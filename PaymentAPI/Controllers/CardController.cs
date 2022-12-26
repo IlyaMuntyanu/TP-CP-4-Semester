@@ -2,14 +2,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PaymentAPI.Data;
 using PaymentAPI.Models;
+using PaymentAPI.RequestBodies;
 
 namespace PaymentAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CardController: ControllerBase
+public class CardController : ControllerBase
 {
-
     private readonly ApiDbContext _db;
 
     public CardController(ApiDbContext db)
@@ -23,7 +23,7 @@ public class CardController: ControllerBase
         var random = new Random();
         var cardNumber = random.NextInt64(9000000000000000, 9999999999999999);
         var cvc = random.Next(100, 999);
-        
+
         var currentDate = DateTime.Now;
         var validThrough = new DateOnly(currentDate.Year + 6, currentDate.Month, currentDate.Day);
         var cardStatus = await _db.CardStatus.FirstAsync(cs => cs.Name == "Открыта");
@@ -40,5 +40,23 @@ public class CardController: ControllerBase
         await _db.SaveChangesAsync();
 
         return Created("/Card", card);
+    }
+
+    [HttpGet]
+    public async Task<ActionResult> VerifyCard(CardBody body)
+    {
+        var card = await _db.Cards.FirstOrDefaultAsync(c => c.CardNumber == body.CardNumber);
+
+        if (card == null)
+        {
+            return NotFound();
+        }
+
+        if (card.ValidThrough != body.ValidThrough || card.Cvc != body.Cvc)
+        {
+            return Forbid();
+        }
+
+        return Ok();
     }
 }
