@@ -76,4 +76,35 @@ public class CardController : ControllerBase
 
         return Ok();
     }
+
+    [HttpPost]
+    [Route("Transfer")]
+    public async Task<ActionResult> Transfer(TransferBody body)
+    {
+        var senderCard = await _db.Cards.FirstOrDefaultAsync(c => c.CardNumber == body.FromCardNumber);
+        var recieverCard = await _db.Cards.FirstOrDefaultAsync(c => c.CardNumber == body.ToCardNumber);
+        var openStatus = await _db.CardStatus.FirstOrDefaultAsync(c => c.Name == "Открыта");
+
+        if (senderCard == null || recieverCard == null)
+        {
+            return NotFound();
+        }
+
+        if (senderCard.Balance < body.Sum)
+        {
+            return Conflict();
+        }
+
+        if (senderCard.ValidThroughMonth != body.FromValidThroughMonth ||
+            senderCard.ValidThroughYear != body.FromValidThroughYear ||
+            senderCard.Cvc != body.FromCvc ||
+            senderCard.CardStatus != openStatus) return Problem();
+        
+        senderCard.Balance -= body.Sum;
+        recieverCard.Balance += body.Sum;
+
+        await _db.SaveChangesAsync();
+
+        return Ok();
+    }
 }
