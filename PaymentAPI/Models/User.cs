@@ -4,9 +4,9 @@ namespace PaymentAPI.Models;
 
 public class User
 {
-    public required int Id { get; set; }
+    public int Id { get; set; }
     public required string Username { get; set; }
-    public required List<Card> Cards { get; set; }
+    public List<Card> Cards { get; set; }
     
     [JsonIgnore]
     public byte[]? PasswordHash { get; set; }
