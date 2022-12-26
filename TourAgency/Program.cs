@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TP_CP_5_Semester.Configuration;
 using TP_CP_5_Semester.Data;
+using TP_CP_5_Semester.PaymentApiClient;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddRazorPages();
 
 builder.Services.AddSingleton<HttpClient>();
+builder.Services.AddSingleton<Client>();
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
