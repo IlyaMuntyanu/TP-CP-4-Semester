@@ -22,7 +22,6 @@ public class ToursController : Controller
             .Include(b => b.Status)
             .OrderBy(b => b.Tour.Name)
             .ToListAsync();
-        ViewBag.UserBalance = (await _db.Users.Where(u => u.Email == User.Identity.Name).FirstAsync()).Balance;
 
         return View();
     }
@@ -45,7 +44,7 @@ public class ToursController : Controller
                 discount = 0.8;
             }
             
-            booking.User.Balance += (int)(booking.Amount * booking.Tour.Price * discount);
+            // booking.User.Balance += (int)(booking.Amount * booking.Tour.Price * discount);
         }
 
         booking.Status = await _db.BookingStatuses.Where(bs => bs.Name == "Отменено").FirstAsync();
@@ -71,8 +70,8 @@ public class ToursController : Controller
 
         var tourPrice = (int)(booking.Amount * booking.Tour.Price * discount);
 
-        if (booking.User.Balance < tourPrice) return RedirectPermanent("/Tours");
-        booking.User.Balance -= tourPrice;
+        // if (booking.User.Balance < tourPrice) return RedirectPermanent("/Tours");
+        // booking.User.Balance -= tourPrice;
         booking.Status = await _db.BookingStatuses.Where(bs => bs.Name == "Оплачено").FirstAsync();
         await _db.SaveChangesAsync();
 

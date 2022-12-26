@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TP_CP_5_Semester.Configuration;
 using TP_CP_5_Semester.Data;
-using TP_CP_5_Semester.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +13,7 @@ ArgumentException.ThrowIfNullOrEmpty(connectionString);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(connectionString));
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 

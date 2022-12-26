@@ -29,11 +29,6 @@ public class HomeController : Controller
         }
 
         ViewBag.ToursList = toursList;
-
-        if (User.Identity.IsAuthenticated && (await _db.Users.ToListAsync()).Count > 0)
-            ViewBag.UserBalance =
-                (await _db.Users.Where(user => user.Email == User.Identity.Name).FirstAsync()).Balance;
-
         ViewBag.IsOrdered = ordered;
         ViewBag.IsOverflow = overflow;
         
