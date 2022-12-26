@@ -10,4 +10,6 @@ public class Card
     public DateOnly ValidThrough { get; set; }
     public int Cvc { get; set; }
     public CardStatus CardStatus { get; set; }
+    
+    public int Balance { get; set; }
 }
