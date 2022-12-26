@@ -59,4 +59,22 @@ public class CardController : ControllerBase
 
         return Ok();
     }
+
+    [HttpPost]
+    [Route("Replenish")]
+    public async Task<ActionResult> ReplenishCard(ReplenishBody body)
+    {
+        var card = await _db.Cards.FirstOrDefaultAsync(c => c.CardNumber == body.CardNumber);
+
+        if (card == null)
+        {
+            return NotFound();
+        }
+
+        card.Balance += body.Sum;
+
+        await _db.SaveChangesAsync();
+        
+        return Ok();
+    }
 }
