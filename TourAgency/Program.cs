@@ -20,7 +20,6 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 
 builder.Services.AddRazorPages();
 
-builder.Services.AddSingleton<HttpClient>();
 builder.Services.AddSingleton<Client>();
 
 builder.Services.Configure<IdentityOptions>(options =>
