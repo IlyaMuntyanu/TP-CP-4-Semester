@@ -5,7 +5,6 @@ namespace PaymentAPI.Data;
 
 public class ApiDbContext : DbContext
 {
-    public DbSet<User> Users => Set<User>();
     public DbSet<Card> Cards => Set<Card>();
     public DbSet<CardStatus> CardStatus => Set<CardStatus>();
     public DbSet<Transaction> Transactions => Set<Transaction>();
