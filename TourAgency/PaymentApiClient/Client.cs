@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 using System.Text.Json;
 using TP_CP_5_Semester.PaymentApiClient.RequestBodies;
@@ -8,7 +9,7 @@ public class Client
 {
     private readonly Uri _baseAddress = new("https://localhost:7264");
 
-    public async void TransferCard(TransferBody body)
+    public async Task<HttpStatusCode> TransferCard(TransferBody body)
     {
         using var client = new HttpClient();
         client.BaseAddress = _baseAddress;
@@ -16,6 +17,7 @@ public class Client
         
         var content = new StringContent(JsonSerializer.Serialize(body), Encoding.UTF8, "application/json");
         var result = await client.PostAsync("/Card/Transfer", content);
-        var resultContent = await result.Content.ReadAsStringAsync();
+
+        return result.StatusCode;
     }
 }
