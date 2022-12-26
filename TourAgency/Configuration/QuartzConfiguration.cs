@@ -44,6 +44,9 @@ public static class QuartzConfiguration
             .Build();
         
         ArgumentNullException.ThrowIfNull(_scheduler);
-        await _scheduler.ScheduleJob(markBookingsAsFinishedJob, everydayTrigger);
+        if (!await _scheduler.CheckExists(markBookingsAsFinishedJob.Key))
+        {
+            await _scheduler.ScheduleJob(markBookingsAsFinishedJob, everydayTrigger);
+        }
     }
 }
