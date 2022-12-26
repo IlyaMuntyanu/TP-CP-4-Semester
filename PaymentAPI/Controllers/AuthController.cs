@@ -66,6 +66,27 @@ public class AuthController : ControllerBase
 
         return Unauthorized();
     }
+    
+    [AllowAnonymous]
+    [HttpPost("Login")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<string>> Login(LoginBody body) {
+        var user = await _db.Users
+            .FirstOrDefaultAsync(u => u.Username.Equals(body.Username));
+
+        if (user is null)
+        {
+            return NotFound();
+        }
+
+        if (!VerifyPasswordHash(body.Password, user.PasswordHash, user.PasswordSalt))
+        {
+            return Unauthorized();
+        }
+
+        return Ok(GenerateToken(user));
+    }
 
     private UserResponse? GetCurrentUser()
     {
