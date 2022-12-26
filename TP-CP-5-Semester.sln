@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TP-CP-5-Semester", "TP-CP-5-Semester\TP-CP-5-Semester.csproj", "{35C14844-7DA6-4237-94A8-68E0B01D7FF0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TourAgency", "TourAgency\TourAgency.csproj", "{35C14844-7DA6-4237-94A8-68E0B01D7FF0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
