@@ -2,26 +2,29 @@ namespace TP_CP_5_Semester.PaymentApiClient;
 
 public class Client
 {
+    private readonly Uri _baseAddress = new("https://localhost:7264");
 
-    private readonly HttpClient _client;
-
-    public Client(HttpClient client)
+    public async void TransferCard(
+        long senderCardNumber,
+        int senderValidThroughMonth,
+        int senderValidThroughYear,
+        int senderCvc,
+        long reciverCardNumber,
+        int sum
+    )
     {
-        _client = client;
-    }
-
-    public async void OpenCard()
-    {
-        
-    }
-
-    public async void ReplenishCard()
-    {
-        
-    }
-
-    public async void TransferCard()
-    {
-        
+        using var client = new HttpClient();
+        client.BaseAddress = _baseAddress;
+        var body = new FormUrlEncodedContent(new[]
+        {
+            new KeyValuePair<string, string>("fromCardNumber", senderCardNumber.ToString()),
+            new KeyValuePair<string, string>("fromValidThroughMonth", senderValidThroughMonth.ToString()),
+            new KeyValuePair<string, string>("fromValidThroughYear", senderValidThroughYear.ToString()),
+            new KeyValuePair<string, string>("fromCvc", senderCvc.ToString()),
+            new KeyValuePair<string, string>("toCardNumber", reciverCardNumber.ToString()),
+            new KeyValuePair<string, string>("sum", sum.ToString())
+        });
+        var result = await client.PostAsync("/Card/Replenish", body);
+        var resultContent = await result.Content.ReadAsStringAsync();
     }
 }
