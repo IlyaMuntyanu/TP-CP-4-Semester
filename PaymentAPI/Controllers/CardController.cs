@@ -25,14 +25,14 @@ public class CardController : ControllerBase
         var cvc = random.Next(100, 999);
 
         var currentDate = DateTime.Now;
-        var validThrough = new DateOnly(currentDate.Year + 6, currentDate.Month, currentDate.Day);
         var cardStatus = await _db.CardStatus.FirstAsync(cs => cs.Name == "Открыта");
 
         var card = new Card
         {
             CardNumber = cardNumber,
             Cvc = cvc,
-            ValidThrough = validThrough,
+            ValidThroughYear = currentDate.Year + 6,
+            ValidThroughMonth = currentDate.Month,
             CardStatus = cardStatus
         };
 
@@ -53,7 +53,8 @@ public class CardController : ControllerBase
             return NotFound();
         }
 
-        if (card.ValidThrough != body.ValidThrough || card.Cvc != body.Cvc)
+        if (card.ValidThroughYear != body.ValidThroughYear || card.ValidThroughMonth != body.ValidThroughMonth ||
+            card.Cvc != body.Cvc)
         {
             return Forbid();
         }
@@ -75,7 +76,7 @@ public class CardController : ControllerBase
         card.Balance += body.Sum;
 
         await _db.SaveChangesAsync();
-        
+
         return Ok();
     }
 }
