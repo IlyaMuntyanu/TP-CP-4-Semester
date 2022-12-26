@@ -6,4 +6,5 @@ public class Card
     public long CardNumber { get; set; }
     public DateOnly ValidThrough { get; set; }
     public int Cvc { get; set; }
+    public CardStatus CardStatus { get; set; }
 }
