@@ -1,16 +1,19 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TP_CP_5_Semester.Data;
+using TP_CP_5_Semester.PaymentApiClient;
 
 namespace TP_CP_5_Semester.Controllers;
 
 public class ToursController : Controller
 {
     private readonly ApplicationDbContext _db;
+    private readonly Client _client;
 
-    public ToursController(ApplicationDbContext db)
+    public ToursController(ApplicationDbContext db, Client client)
     {
         _db = db;
+        _client = client;
     }
 
     public async Task<IActionResult> Index()
