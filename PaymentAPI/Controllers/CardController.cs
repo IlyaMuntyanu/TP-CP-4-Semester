@@ -43,6 +43,7 @@ public class CardController : ControllerBase
     }
 
     [HttpPost]
+    [Route("Verify")]
     public async Task<ActionResult> VerifyCard(CardBody body)
     {
         var card = await _db.Cards.FirstOrDefaultAsync(c => c.CardNumber == body.CardNumber);
