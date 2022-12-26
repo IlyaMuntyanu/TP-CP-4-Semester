@@ -48,15 +48,12 @@ public class CardController : ControllerBase
     {
         var card = await _db.Cards.FirstOrDefaultAsync(c => c.CardNumber == body.CardNumber);
 
-        if (card == null)
-        {
-            return NotFound();
-        }
-
-        if (card.ValidThroughYear != body.ValidThroughYear || card.ValidThroughMonth != body.ValidThroughMonth ||
+        if (card == null ||
+            card.ValidThroughYear != body.ValidThroughYear ||
+            card.ValidThroughMonth != body.ValidThroughMonth ||
             card.Cvc != body.Cvc)
         {
-            return Forbid();
+            return NotFound();
         }
 
         return Ok();
