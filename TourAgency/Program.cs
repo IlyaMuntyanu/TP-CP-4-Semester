@@ -21,6 +21,8 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddRazorPages();
 
 builder.Services.AddSingleton<Client>();
+builder.Services.AddOptions<TourAgencyConfiguration>()
+    .BindConfiguration("PaymentConfiguration");
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
