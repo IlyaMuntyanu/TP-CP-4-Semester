@@ -3,6 +3,49 @@
   Layout = "_Layout";
 }
 
+<div class="modal fade" id="payModalForm" tabindex="-1" role="dialog" aria-labelledby="orderModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Оплата брони</h5>
+        <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="togglePayModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form style="text-align: left" method="post" action="/Tours/PayForBooking" id="payForm">
+
+          <input type="hidden" id="payBookingId" name="bookingId"/>
+
+          <div class="form-group m-2">
+            <label for="payCardNumber">Номер карты</label>
+            <input type="number" class="form-control" id="payCardNumber" name="cardNumber" placeholder="Номер карты">
+          </div>
+          <div class="form-group m-2">
+            <label for="validDate">Действительна до</label>
+            <div id="validDate" style="display: flex">
+              <input type="number" class="form-control" id="payValidMonth" name="validThroughMonth" placeholder="ММ" style="width: 70px">
+              <span>&nbsp;/&nbsp;</span>
+              <input type="number" class="form-control" id="payValidYear" name="validThroughYear" placeholder="ГГ" style="width: 70px">
+            </div>
+          </div>
+          <div class="form-group m-2">
+            <label for="cvc">CVC-код</label>
+            <input type="number" class="form-control" id="cvc" name="cvc" placeholder="CVC">
+          </div>
+
+          <button type="submit" class="btn btn-success m-2">Оплатить</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="togglePayModal()">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <h1>План поездки</h1>
 
 
@@ -27,21 +70,15 @@
           <div class="d-flex justify-content-evenly">
             @if (booking.Status.Name == "Забронировано")
             {
-              <form action="/Tours/PayForBooking">
-                <input type="hidden" value="@booking.Id" name="bookingId"/>
-                <button class="btn btn-primary" title="Оплатить бронь" type="submit">
-                  <i class="fa-solid fa-cart-shopping"></i>
-                </button>
-              </form>
+              <button class="btn btn-primary" title="Оплатить бронь" type="submit" onclick="togglePayModal(@booking.Id)">
+                <i class="fa-solid fa-cart-shopping"></i>
+              </button>
             }
             @if (booking.Status.Name is "Забронировано" or "Оплачено")
             {
-              <form action="/Tours/CancelBooking">
-                <input type="hidden" value="@booking.Id" name="bookingId"/>
-                <button class="btn btn-danger" title="Отменить бронь" type="submit">
-                  <i class="fa-solid fa-times"></i>
-                </button>
-              </form>
+              <button class="btn btn-danger" title="Отменить бронь">
+                <i class="fa-solid fa-times"></i>
+              </button>
             }
           </div>
         </td>
@@ -49,3 +86,20 @@
     }
   }
 </table>
+
+<script>
+    const togglePayModal = (id) => {
+      const modal = $("#payModalForm");
+      
+      if (id) {
+        modal.attr("data-tour-id", id);
+      }
+      
+      modal.modal('toggle');
+    }
+    
+    $('#payModalForm').on('shown.bs.modal', (e) => {
+        const modal = $('#payModalForm')
+        $("#payBookingId").attr("value", modal.attr("data-tour-id"));
+    })
+</script>

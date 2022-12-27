@@ -5,6 +5,7 @@ using TP_CP_5_Semester.Configuration;
 using TP_CP_5_Semester.Data;
 using TP_CP_5_Semester.PaymentApiClient;
 using TP_CP_5_Semester.PaymentApiClient.RequestBodies;
+using TP_CP_5_Semester.RequestBodies;
 
 namespace TP_CP_5_Semester.Controllers;
 
@@ -69,9 +70,9 @@ public class ToursController : Controller
         return RedirectPermanent("/Tours");
     }
 
-    public async Task<IActionResult> PayForBooking(int bookingId)
+    public async Task<IActionResult> PayForBooking(PayRequest body)
     {
-        var booking = await _db.Bookings.Where(b => b.Id == bookingId)
+        var booking = await _db.Bookings.Where(b => b.Id == body.BookingId)
             .Include(b => b.Tour)
             .Include(b => b.User)
             .FirstAsync();
@@ -87,11 +88,10 @@ public class ToursController : Controller
 
         var result = await _client.TransferCard(new TransferBody
         {
-            FromCardNumber = 0,
-            FromCvc = 0,
-            FromValidThroughMonth = 0,
-            FromValidThroughYear = 0,
-            Sum = tourPrice,
+            FromCardNumber = body.CardNumber,
+            FromCvc = body.Cvc,
+            FromValidThroughMonth = body.ValidThroughMonth,
+            FromValidThroughYear = body.ValidThroughYear,
             ToCardNumber = _configuration.CardNumber
         });
 
