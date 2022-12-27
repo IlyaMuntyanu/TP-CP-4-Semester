@@ -22,11 +22,13 @@ builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.Requ
 builder.Services.AddRazorPages();
 
 builder.Services.AddSingleton<Client>();
-builder.Services.AddOptions<TourAgencyConfiguration>()
-    .BindConfiguration("PaymentConfiguration");
+builder.Services.AddOptions<PaymentConfiguration>()
+    .BindConfiguration("PaymentConfiguration")
+    .ValidateOnStart();
+
 builder.Services.AddSingleton(
     resolver =>
-        resolver.GetRequiredService<IOptions<TourAgencyConfiguration>>().Value
+        resolver.GetRequiredService<IOptions<PaymentConfiguration>>().Value
 );
 
 builder.Services.Configure<IdentityOptions>(options =>
