@@ -92,7 +92,8 @@ public class ToursController : Controller
             FromCvc = body.Cvc,
             FromValidThroughMonth = body.ValidThroughMonth,
             FromValidThroughYear = body.ValidThroughYear,
-            ToCardNumber = _configuration.CardNumber
+            ToCardNumber = _configuration.CardNumber,
+            Sum = tourPrice
         });
 
         if (result == HttpStatusCode.OK)
