@@ -35,9 +35,9 @@ public class ToursController : Controller
         return View();
     }
 
-    public async Task<IActionResult> CancelBooking(int bookingId)
+    public async Task<IActionResult> CancelBooking(CancelRequest body)
     {
-        var booking = await _db.Bookings.Where(b => b.Id == bookingId)
+        var booking = await _db.Bookings.Where(b => b.Id == body.BookingId)
             .Include(b => b.Tour)
             .Include(b => b.Status)
             .Include(b => b.User)

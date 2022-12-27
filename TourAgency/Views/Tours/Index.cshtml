@@ -45,6 +45,35 @@
   </div>
 </div>
 
+<div class="modal fade" id="cancelModalForm" tabindex="-1" role="dialog" aria-labelledby="orderModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Отмена брони</h5>
+        <button type="button" class="close btn btn-outline-dark btn-sm" data-dismiss="modal" aria-label="Close" onclick="togglePayModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <form style="text-align: left" method="post" action="/Tours/CancelBooking" id="payForm">
+
+          <input type="hidden" id="cancelBookingId" name="bookingId"/>
+
+          <div class="form-group m-2">
+            <label for="payCardNumber">Номер карты</label>
+            <input type="number" class="form-control" id="cancelCardNumber" name="cardNumber" placeholder="Номер карты">
+          </div>
+
+          <button type="submit" class="btn btn-success m-2">Вернуть деньги</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="togglePayModal()">Закрыть</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <h1>План поездки</h1>
 
@@ -73,10 +102,16 @@
               <button class="btn btn-primary" title="Оплатить бронь" type="submit" onclick="togglePayModal(@booking.Id)">
                 <i class="fa-solid fa-cart-shopping"></i>
               </button>
+              <form action="/Tours/CancelBooking" method="post">
+                <input type="hidden" name="bookingId" value="@booking.Id"/>
+                <button class="btn btn-danger" title="Отменить бронь" type="submit">
+                  <i class="fa-solid fa-times"></i>
+                </button>
+              </form>
             }
-            @if (booking.Status.Name is "Забронировано" or "Оплачено")
+            @if (booking.Status.Name == "Оплачено")
             {
-              <button class="btn btn-danger" title="Отменить бронь">
+              <button class="btn btn-danger" title="Отменить бронь" onclick="toggleCancelModal(@booking.Id)">
                 <i class="fa-solid fa-times"></i>
               </button>
             }
@@ -97,9 +132,23 @@
       
       modal.modal('toggle');
     }
+    const toggleCancelModal = (id) => {
+      const modal = $("#cancelModalForm");
+      
+      if (id) {
+        modal.attr("data-tour-id", id);
+      }
+      
+      modal.modal('toggle');
+    }
     
     $('#payModalForm').on('shown.bs.modal', (e) => {
         const modal = $('#payModalForm')
         $("#payBookingId").attr("value", modal.attr("data-tour-id"));
+    })
+    
+    $('#cancelModalForm').on('shown.bs.modal', (e) => {
+        const modal = $('#cancelModalForm')
+        $("#cancelBookingId").attr("value", modal.attr("data-tour-id"));
     })
 </script>
