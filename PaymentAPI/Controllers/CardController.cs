@@ -25,7 +25,6 @@ public class CardController : ControllerBase
         var cvc = random.Next(100, 999);
 
         var currentDate = DateTime.Now;
-        var cardStatus = await _db.CardStatus.FirstAsync(cs => cs.Name == "Открыта");
 
         var card = new Card
         {
@@ -33,7 +32,6 @@ public class CardController : ControllerBase
             Cvc = cvc,
             ValidThroughYear = currentDate.Year + 6,
             ValidThroughMonth = currentDate.Month,
-            CardStatus = cardStatus
         };
 
         await _db.Cards.AddAsync(card);
@@ -83,7 +81,6 @@ public class CardController : ControllerBase
     {
         var senderCard = await _db.Cards.FirstOrDefaultAsync(c => c.CardNumber == body.FromCardNumber);
         var recieverCard = await _db.Cards.FirstOrDefaultAsync(c => c.CardNumber == body.ToCardNumber);
-        var openStatus = await _db.CardStatus.FirstOrDefaultAsync(c => c.Name == "Открыта");
 
         if (senderCard == null || recieverCard == null)
         {
@@ -97,8 +94,7 @@ public class CardController : ControllerBase
 
         if (senderCard.ValidThroughMonth != body.FromValidThroughMonth ||
             senderCard.ValidThroughYear != body.FromValidThroughYear ||
-            senderCard.Cvc != body.FromCvc ||
-            senderCard.CardStatus != openStatus) return Problem();
+            senderCard.Cvc != body.FromCvc) return Problem();
         
         senderCard.Balance -= body.Sum;
         recieverCard.Balance += body.Sum;

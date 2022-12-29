@@ -10,7 +10,6 @@ public class Card
     public int ValidThroughMonth { get; set; }
     public int ValidThroughYear { get; set; }
     public int Cvc { get; set; }
-    public CardStatus CardStatus { get; set; }
     
     public int Balance { get; set; }
 }
