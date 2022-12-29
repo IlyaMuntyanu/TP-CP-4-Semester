@@ -75,6 +75,90 @@
   </div>
 </div>
 
+  @if (ViewBag.Successful)
+  {
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="payedNotification" style="position: absolute; z-index: 2; bottom: 30px; right: 20px">
+      <div class="toast-header d-flex justify-content-between">
+        <strong class="mr-auto">Уведомление</strong>
+        <button type="button" class="btn ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" onclick="closeSuccessToast()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        Успешно оплачено
+      </div>
+    </div>
+    
+    <script>
+      $(document).ready(function() {
+          $("#payedNotification").toast('show');
+      });
+    </script>
+  }
+
+  @if (ViewBag.InsfficientFunds)
+  {
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="notEnougnMoneyNotification" style="position: absolute; z-index: 2; bottom: 30px; right: 20px">
+      <div class="toast-header d-flex justify-content-between">
+        <strong class="mr-auto">Уведомление</strong>
+        <button type="button" class="btn ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" onclick="closeNoMoneyToast()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        Недостаточно средств
+      </div>
+    </div>
+    
+    <script>
+      $(document).ready(function() {
+          $("#notEnougnMoneyNotification").toast('show');
+      });
+    </script>
+  }
+
+  @if (ViewBag.NoSuchCard)
+  {
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="noSuchCardNotification" style="position: absolute; z-index: 2; bottom: 30px; right: 20px">
+      <div class="toast-header d-flex justify-content-between">
+        <strong class="mr-auto">Уведомление</strong>
+        <button type="button" class="btn ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" onclick="closeNoCardToast()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        Неверно указана карта
+      </div>
+    </div>
+    
+    <script>
+      $(document).ready(function() {
+          $("#noSuchCardNotification").toast('show');
+      });
+    </script>
+  }
+
+  @if (ViewBag.InvalidData)
+  {
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="invalidDataNotification" style="position: absolute; z-index: 2; bottom: 30px; right: 20px">
+      <div class="toast-header d-flex justify-content-between">
+        <strong class="mr-auto">Уведомление</strong>
+        <button type="button" class="btn ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" onclick="closeInvalidToast()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="toast-body">
+        Неверные данные карты
+      </div>
+    </div>
+    
+    <script>
+      $(document).ready(function() {
+          $("#invalidDataNotification").toast('show');
+      });
+    </script>
+  }
+
 <h1>План поездки</h1>
 
 
@@ -151,4 +235,20 @@
         const modal = $('#cancelModalForm')
         $("#cancelBookingId").attr("value", modal.attr("data-tour-id"));
     })
+    
+    const closeSuccessToast = () => {
+          $("#payedNotification").toast('close');  
+        }
+        
+    const closeNoMoneyToast = () => {
+          $("#notEnougnMoneyNotification").toast('close');  
+        }
+        
+    const closeNoCardToast = () => {
+          $("#noSuchCardNotification").toast('close');  
+        }
+        
+    const closeInvalidToast = () => {
+          $("#invalidDataNotification").toast('close');  
+        }
 </script>

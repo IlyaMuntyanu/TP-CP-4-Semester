@@ -22,7 +22,8 @@ public class ToursController : Controller
         _configuration = configuration;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(bool successful = false, bool insuffucientFunds = false,
+        bool noSuchCard = false, bool invalidData = false)
     {
         if (User.Identity.IsAuthenticated && (await _db.Users.ToListAsync()).Count <= 0) return View();
 
@@ -31,6 +32,11 @@ public class ToursController : Controller
             .Include(b => b.Status)
             .OrderBy(b => b.Tour.Name)
             .ToListAsync();
+
+        ViewBag.Successful = successful;
+        ViewBag.InsfficientFunds = insuffucientFunds;
+        ViewBag.NoSuchCard = noSuchCard;
+        ViewBag.InvalidData = invalidData;
 
         return View();
     }
@@ -96,11 +102,30 @@ public class ToursController : Controller
             Sum = tourPrice
         });
 
-        if (result == HttpStatusCode.OK)
+        switch (result)
         {
-            booking.Status = await _db.BookingStatuses.Where(bs => bs.Name == "Забронировано").FirstAsync();
-            booking.Tour.Leftover -= booking.Amount;
-            await _db.SaveChangesAsync();
+            case HttpStatusCode.OK:
+            {
+                booking.Status = await _db.BookingStatuses.Where(bs => bs.Name == "Забронировано").FirstAsync();
+                booking.Tour.Leftover -= booking.Amount;
+                await _db.SaveChangesAsync();
+                return RedirectPermanent("/Tours/?successful=true");
+            }
+
+            case HttpStatusCode.Conflict:
+            {
+                return RedirectPermanent("/Tours/?insufficientFunds=true");
+            }
+
+            case HttpStatusCode.NotFound:
+            {
+                return RedirectPermanent("/Tours/?noSuchCard=true");
+            }
+
+            case HttpStatusCode.InternalServerError:
+            {
+                return RedirectPermanent("/Tours/?invalidData=true");
+            }
         }
 
         return RedirectPermanent("/Tours");
