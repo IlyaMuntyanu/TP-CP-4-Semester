@@ -99,6 +99,7 @@ public class ToursController : Controller
         if (result == HttpStatusCode.OK)
         {
             booking.Status = await _db.BookingStatuses.Where(bs => bs.Name == "Оплачено").FirstAsync();
+            booking.Tour.Leftover -= booking.Amount;
             await _db.SaveChangesAsync();
         }
 
