@@ -66,7 +66,7 @@ public class HomeController : Controller
         if (tour.Leftover < body.Amount) return RedirectPermanent("/?overflow=true");
 
         var user = await _db.Users.Where(user => user.UserName == body.Email).FirstAsync();
-        var bookingStatus = await _db.BookingStatuses.Where(bs => bs.Name.Equals("Забронировано")).FirstAsync();
+        var bookingStatus = await _db.BookingStatuses.Where(bs => bs.Name.Equals("В плане")).FirstAsync();
 
         var booking = new Booking
         {

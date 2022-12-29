@@ -97,7 +97,7 @@
         <td>@booking.Status.Name</td>
         <td>
           <div class="d-flex justify-content-evenly">
-            @if (booking.Status.Name == "Забронировано")
+            @if (booking.Status.Name == "В плане")
             {
               <button class="btn btn-primary" title="Оплатить бронь" type="submit" onclick="togglePayModal(@booking.Id)">
                 <i class="fa-solid fa-cart-shopping"></i>
@@ -109,7 +109,7 @@
                 </button>
               </form>
             }
-            @if (booking.Status.Name == "Оплачено")
+            @if (booking.Status.Name == "Забронировано")
             {
               <button class="btn btn-danger" title="Отменить бронь" onclick="toggleCancelModal(@booking.Id)">
                 <i class="fa-solid fa-times"></i>

@@ -17,7 +17,7 @@ public class MarkBookingsAsFinished : IJob
     {
         var finishedBookings = _db.Bookings
             .Include(b => b.Status)
-            .Where(b => b.Status.Name == "Оплачено" &&
+            .Where(b => b.Status.Name == "Забронировано" &&
                         (b.Tour.EndDate.ToDateTime(TimeOnly.MinValue) - DateTime.Now).Days == 0);
 
 

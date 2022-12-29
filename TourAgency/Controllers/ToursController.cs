@@ -43,7 +43,7 @@ public class ToursController : Controller
             .Include(b => b.User)
             .FirstAsync();
 
-        if (booking.Status.Name == "Оплачено")
+        if (booking.Status.Name == "Забронировано")
         {
             var discount = 1.0;
 
@@ -98,7 +98,7 @@ public class ToursController : Controller
 
         if (result == HttpStatusCode.OK)
         {
-            booking.Status = await _db.BookingStatuses.Where(bs => bs.Name == "Оплачено").FirstAsync();
+            booking.Status = await _db.BookingStatuses.Where(bs => bs.Name == "Забронировано").FirstAsync();
             booking.Tour.Leftover -= booking.Amount;
             await _db.SaveChangesAsync();
         }

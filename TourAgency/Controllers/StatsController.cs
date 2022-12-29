@@ -16,7 +16,7 @@ public class StatsController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var paidStatus = await _db.BookingStatuses.Where(bs => bs.Name == "Оплачено").FirstAsync();
+        var paidStatus = await _db.BookingStatuses.Where(bs => bs.Name == "Забронировано").FirstAsync();
 
         ViewBag.Stats = await _db.Bookings
             .Include(b => b.Tour)
